@@ -1,58 +1,107 @@
 package io.aleksander.controller;
 
 import com.amazonaws.services.polly.model.Voice;
-import io.aleksander.gui.model.VoiceSelectModel;
-import io.aleksander.utils.PollyClient;
+import io.aleksander.gui.MainFrame;
+import io.aleksander.gui.viewmodel.VoiceSelectModel;
+import io.aleksander.model.AudioStreamPlayer;
+import io.aleksander.model.TextToSpeechEngine;
+import io.aleksander.utils.StringResource;
 import javazoom.jl.decoder.JavaLayerException;
-import javazoom.jl.player.advanced.AdvancedPlayer;
-import javazoom.jl.player.advanced.PlaybackEvent;
-import javazoom.jl.player.advanced.PlaybackListener;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import java.io.InputStream;
-import java.util.List;
-import java.util.stream.Collectors;
+
+import static io.aleksander.utils.StringResource.SOUND_PLAYBACK_ERROR;
 
 public class Controller {
-  private final PollyClient pollyClient;
+  private final TextToSpeechEngine textToSpeechEngine;
+  AudioStreamPlayer audioStreamPlayer;
+  MainFrame view;
 
   public Controller() {
-    pollyClient = PollyClient.getInstance();
+    textToSpeechEngine = new TextToSpeechEngine();
+    this.view = new MainFrame();
+
+    setUpAudioPlayer();
+    setUpLanguageSelector();
+    setUpVoiceSelector();
+    setUpSpeakButton();
+
+    view.setVisible(true);
   }
 
-  public List<VoiceSelectModel> getVoices() {
-    List<Voice> pollyVoices = pollyClient.getVoices();
-    return pollyVoices.stream().map(VoiceSelectModel::new).collect(Collectors.toList());
+  private void setUpSpeakButton() {
+    view.getSettingsPanel()
+        .getSpeakButton()
+        .addActionListener(
+            event -> {
+              String text = view.getTextArea().getText();
+              text = text.trim();
+              if(!text.isEmpty()) {
+                speakText(text);
+              }
+            });
   }
 
-  public void synthesizeText(String voiceId, String text) {
-    InputStream synthesizedText = pollyClient.synthesizeText(voiceId, text);
-    try {
-      playStream(synthesizedText);
-    } catch (JavaLayerException exception) {
-      // TODO create and show warning message.
-      System.out.println("playStream exception");
-    }
-  }
+  private void setUpVoiceSelector() {
+    JComboBox<VoiceSelectModel> voiceSelector = view.getSettingsPanel().getVoiceSelector();
+    DefaultComboBoxModel<VoiceSelectModel> voiceComboBoxModel = new DefaultComboBoxModel<>();
 
-  private void playStream(InputStream inputStream) throws JavaLayerException {
-    AdvancedPlayer player =
-        new AdvancedPlayer(
-            inputStream, javazoom.jl.player.FactoryRegistry.systemRegistry().createAudioDevice());
+    textToSpeechEngine
+        .getAvailableVoices()
+        .forEach(voice -> voiceComboBoxModel.addElement(convertVoiceToVoiceSelectModel(voice)));
 
-    player.setPlayBackListener(
-        new PlaybackListener() {
-          @Override
-          public void playbackStarted(PlaybackEvent evt) {
-            System.out.println("Playback started");
-          }
-
-          @Override
-          public void playbackFinished(PlaybackEvent evt) {
-            System.out.println("Playback finished");
-          }
+    voiceSelector.setModel(voiceComboBoxModel);
+    voiceSelector.addActionListener(
+        action -> {
+          VoiceSelectModel selectedVoice =
+              (VoiceSelectModel) view.getSettingsPanel().getVoiceSelector().getSelectedItem();
+          textToSpeechEngine.setVoiceId(selectedVoice.getId());
         });
+    voiceSelector.setSelectedIndex(0);
+  }
 
-    // play it!
-    player.play();
+  private VoiceSelectModel convertVoiceToVoiceSelectModel(Voice voice) {
+    return new VoiceSelectModel(voice.getName() + ", " + voice.getGender(), voice.getId());
+  }
+
+  private void setUpAudioPlayer() {
+    audioStreamPlayer = new AudioStreamPlayer();
+    audioStreamPlayer.addPropertyChangeListener(view.getSettingsPanel());
+  }
+
+  private void setUpLanguageSelector() {
+    JComboBox<String> languageSelector = view.getSettingsPanel().getLanguageSelector();
+    DefaultComboBoxModel<String> languageComboBoxModel = new DefaultComboBoxModel<>();
+    languageComboBoxModel.addAll(textToSpeechEngine.getAvailableLanguages());
+    languageSelector.setModel(languageComboBoxModel);
+    languageSelector.addActionListener(
+        action -> {
+          String language = (String) languageSelector.getSelectedItem();
+          textToSpeechEngine.setLanguage(language);
+          setUpVoiceSelector();
+        });
+    languageSelector.setSelectedIndex(0);
+  }
+
+  public void speakText(String text) {
+    Thread thread =
+        new Thread(
+            () -> {
+              InputStream synthesizedText = textToSpeechEngine.convertTextToSpeech(text);
+              try {
+                audioStreamPlayer.playStream(synthesizedText);
+              } catch (JavaLayerException exception) {
+                JOptionPane.showMessageDialog(
+                    view,
+                    StringResource.getString(StringResource.ERROR),
+                    StringResource.getString(SOUND_PLAYBACK_ERROR),
+                    JOptionPane.ERROR_MESSAGE);
+              }
+            });
+
+    thread.start();
   }
 }

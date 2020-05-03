@@ -1,9 +1,6 @@
 package io.aleksander.gui;
 
-import io.aleksander.controller.Controller;
-import io.aleksander.gui.event.SpeakEvent;
-import io.aleksander.gui.event.SpeakEventListener;
-import io.aleksander.utils.Resources;
+import io.aleksander.utils.StringResource;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -18,18 +15,21 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 
-import static io.aleksander.utils.Resources.APPLICATION_TITLE;
-import static io.aleksander.utils.Resources.EXIT;
-import static io.aleksander.utils.Resources.FILE;
+import static io.aleksander.utils.StringResource.APPLICATION_TITLE;
+import static io.aleksander.utils.StringResource.EXIT;
+import static io.aleksander.utils.StringResource.FILE;
 
-public class MainFrame extends JFrame implements SpeakEventListener {
+public class MainFrame extends JFrame {
   private final SettingsPanel settingsPanel;
   private final JTextArea textArea;
-  private final Controller controller;
   private final JMenuBar menuBar;
 
   public MainFrame() {
-    configureMainFrame();
+    // configure frame
+    setTitle(StringResource.getString(APPLICATION_TITLE));
+    setMinimumSize(new Dimension(600, 500));
+    setDefaultCloseOperation(EXIT_ON_CLOSE);
+    setLayout(new BorderLayout());
 
     // create components
     settingsPanel = createSettingsPanel();
@@ -40,15 +40,14 @@ public class MainFrame extends JFrame implements SpeakEventListener {
     setJMenuBar(menuBar);
     add(settingsPanel, BorderLayout.WEST);
     add(textArea, BorderLayout.CENTER);
+  }
 
-    // set up controller
-    controller = new Controller();
+  public SettingsPanel getSettingsPanel() {
+    return settingsPanel;
+  }
 
-    // attach listeners
-    settingsPanel.addSpeakEventListener(this);
-
-    // display frame
-    setVisible(true);
+  public JTextArea getTextArea() {
+    return textArea;
   }
 
   private JTextArea createTextArea() {
@@ -64,7 +63,7 @@ public class MainFrame extends JFrame implements SpeakEventListener {
 
   private SettingsPanel createSettingsPanel() {
     SettingsPanel settingsPanel = new SettingsPanel();
-    settingsPanel.setPreferredSize(new Dimension(200, 200));
+    settingsPanel.setPreferredSize(new Dimension(300, 200));
     return settingsPanel;
   }
 
@@ -72,27 +71,15 @@ public class MainFrame extends JFrame implements SpeakEventListener {
     JMenuBar menuBar = new JMenuBar();
 
     // File menu
-    JMenu fileMenu = new JMenu(Resources.getString(FILE));
+    JMenu fileMenu = new JMenu(StringResource.getString(FILE));
     fileMenu.setMnemonic(KeyEvent.VK_F);
 
-    JMenuItem exitItem = new JMenuItem(Resources.getString(EXIT));
+    JMenuItem exitItem = new JMenuItem(StringResource.getString(EXIT));
     exitItem.setMnemonic(KeyEvent.VK_E);
     exitItem.addActionListener(event -> System.exit(0));
     fileMenu.add(exitItem);
 
     menuBar.add(fileMenu);
     return menuBar;
-  }
-
-  private void configureMainFrame() {
-    setTitle(Resources.getString(APPLICATION_TITLE));
-    setMinimumSize(new Dimension(600, 500));
-    setDefaultCloseOperation(EXIT_ON_CLOSE);
-    setLayout(new BorderLayout());
-  }
-
-  @Override
-  public void speakEventOccured(SpeakEvent event) {
-    controller.synthesizeText(event.getVoiceId(), textArea.getText());
   }
 }
