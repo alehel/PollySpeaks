@@ -23,13 +23,28 @@ public class Controller {
   public Controller() {
     textToSpeechEngine = new TextToSpeechEngine();
     this.view = new MainFrame();
+    view.setController(this);
 
     setUpAudioPlayer();
     setUpLanguageSelector();
     setUpVoiceSelector();
     setUpSpeakButton();
+    setUpTextArea();
 
     view.setVisible(true);
+  }
+
+  private void setUpTextArea() {
+    setWordWrap(true);
+  }
+
+  public void quitApplication() {
+    System.exit(0);
+  }
+
+  public void setWordWrap(boolean wordWrap) {
+    view.getTextArea().setLineWrap(wordWrap);
+    view.getTextArea().setWrapStyleWord(wordWrap);
   }
 
   private void setUpSpeakButton() {

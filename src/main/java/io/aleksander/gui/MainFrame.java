@@ -1,8 +1,10 @@
 package io.aleksander.gui;
 
+import io.aleksander.controller.Controller;
 import io.aleksander.utils.StringResource;
 
 import javax.swing.BorderFactory;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -18,11 +20,14 @@ import java.awt.event.KeyEvent;
 import static io.aleksander.utils.StringResource.APPLICATION_TITLE;
 import static io.aleksander.utils.StringResource.EXIT;
 import static io.aleksander.utils.StringResource.FILE;
+import static io.aleksander.utils.StringResource.VIEW;
+import static io.aleksander.utils.StringResource.VIEW_WORD_WRAP;
 
 public class MainFrame extends JFrame {
   private final SettingsPanel settingsPanel;
   private final JTextArea textArea;
   private final JMenuBar menuBar;
+  private Controller controller;
 
   public MainFrame() {
     // configure frame
@@ -75,10 +80,28 @@ public class MainFrame extends JFrame {
 
     JMenuItem exitItem = new JMenuItem(StringResource.getString(EXIT));
     exitItem.setMnemonic(KeyEvent.VK_E);
-    exitItem.addActionListener(event -> System.exit(0));
+    exitItem.addActionListener(event -> controller.quitApplication());
     fileMenu.add(exitItem);
 
+    // View menu
+    JMenu viewMenu = new JMenu(StringResource.getString(VIEW));
+    viewMenu.setMnemonic(KeyEvent.VK_V);
+
+    JCheckBoxMenuItem wordWrapItem =
+        new JCheckBoxMenuItem(StringResource.getString(VIEW_WORD_WRAP));
+    wordWrapItem.addActionListener(event -> {
+      JCheckBoxMenuItem item = (JCheckBoxMenuItem) event.getSource();
+      controller.setWordWrap(item.getState());
+    });
+    wordWrapItem.setSelected(true);
+    viewMenu.add(wordWrapItem);
+
     menuBar.add(fileMenu);
+    menuBar.add(viewMenu);
     return menuBar;
+  }
+
+  public void setController(Controller controller) {
+    this.controller = controller;
   }
 }

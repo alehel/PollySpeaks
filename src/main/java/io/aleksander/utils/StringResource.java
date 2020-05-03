@@ -10,8 +10,12 @@ public class StringResource {
   public static final String VOICE = "voice";
   public static final String SPEAK = "speak";
   public static final String VOICE_SETTINGS = "voiceSettings";
-  public static final String EXIT = "exit";
+
   public static final String FILE = "file";
+  public static final String VIEW = "view";
+  public static final String VIEW_WORD_WRAP = "viewWordWrap";
+  public static final String EXIT = "exit";
+
   public static final String ERROR = "error";
   public static final String SOUND_PLAYBACK_ERROR = "soundPlaybackError";
 
