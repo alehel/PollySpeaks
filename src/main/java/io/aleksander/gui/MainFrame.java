@@ -39,7 +39,7 @@ public class MainFrame extends JFrame {
     // layout components
     setJMenuBar(menuBar);
     add(settingsPanel, BorderLayout.WEST);
-    add(textArea, BorderLayout.CENTER);
+    add(new JScrollPane(textArea), BorderLayout.CENTER);
   }
 
   public SettingsPanel getSettingsPanel() {
@@ -57,7 +57,6 @@ public class MainFrame extends JFrame {
         BorderFactory.createCompoundBorder(
             textAreaBorder, BorderFactory.createEmptyBorder(10, 10, 10, 10));
     textArea.setBorder(textAreaBorder);
-    textArea.add(new JScrollPane(), BorderLayout.CENTER);
     return textArea;
   }
 
