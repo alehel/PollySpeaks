@@ -4,8 +4,8 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 /**
- * Base class which gives all models the ability to notify of changes to classes that
- * implement the PropertyChangeListener.
+ * Base class which gives all models the ability to notify of changes to classes that implement the
+ * PropertyChangeListener.
  */
 public abstract class AbstractModel {
   protected PropertyChangeSupport propertyChangeSupport;

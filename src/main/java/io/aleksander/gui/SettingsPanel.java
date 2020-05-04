@@ -1,6 +1,6 @@
 package io.aleksander.gui;
 
-import io.aleksander.gui.viewmodel.VoiceSelectModel;
+import io.aleksander.gui.viewmodel.VoiceSelectModelElement;
 import io.aleksander.utils.StringResource;
 
 import javax.swing.BorderFactory;
@@ -13,41 +13,28 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import static io.aleksander.utils.StringResource.LANGUAGE;
 import static io.aleksander.utils.StringResource.SPEAK;
 import static io.aleksander.utils.StringResource.VOICE;
 import static io.aleksander.utils.StringResource.VOICE_SETTINGS;
 
-public class SettingsPanel extends JPanel implements PropertyChangeListener {
+public class SettingsPanel extends JPanel {
+  private final Insets labelInsets = new Insets(0, 0, 0, 5);
+  private final Insets emptyInsets = new Insets(0, 0, 0, 0);
+
+  private final Dimension comboBoxPreferredSize = new Dimension(150, 25);
   private JLabel languageLabel;
   private JComboBox<String> languageSelector;
   private JLabel voiceLabel;
-  private JComboBox<VoiceSelectModel> voiceSelector;
+  private JComboBox<VoiceSelectModelElement> voiceSelector;
   private JButton speakButton;
-  private final Insets labelInsets = new Insets(0, 0, 0, 5);
-  private final Insets emptyInsets = new Insets(0, 0, 0, 0);
-  private final Dimension comboBoxPreferredSize = new Dimension(150, 25);
 
   public SettingsPanel() {
     setLayout(new GridBagLayout());
     createBorder();
     createComponents();
     layoutComponents();
-  }
-
-  public JButton getSpeakButton() {
-    return speakButton;
-  }
-
-  public JComboBox<VoiceSelectModel> getVoiceSelector() {
-    return voiceSelector;
-  }
-
-  public JComboBox<String> getLanguageSelector() {
-    return languageSelector;
   }
 
   private void createBorder() {
@@ -109,11 +96,15 @@ public class SettingsPanel extends JPanel implements PropertyChangeListener {
     add(speakButton, constraints);
   }
 
-  @Override
-  public void propertyChange(PropertyChangeEvent evt) {
-    if(evt.getPropertyName().equals("isPlaying")) {
-      boolean isPlaying = (boolean) evt.getNewValue();
-      speakButton.setEnabled(!isPlaying);
-    }
+  public JButton getSpeakButton() {
+    return speakButton;
+  }
+
+  public JComboBox<VoiceSelectModelElement> getVoiceSelector() {
+    return voiceSelector;
+  }
+
+  public JComboBox<String> getLanguageSelector() {
+    return languageSelector;
   }
 }

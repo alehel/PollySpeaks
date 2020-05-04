@@ -47,12 +47,10 @@ public class MainFrame extends JFrame {
     add(new JScrollPane(textArea), BorderLayout.CENTER);
   }
 
-  public SettingsPanel getSettingsPanel() {
+  private SettingsPanel createSettingsPanel() {
+    SettingsPanel settingsPanel = new SettingsPanel();
+    settingsPanel.setPreferredSize(new Dimension(300, 200));
     return settingsPanel;
-  }
-
-  public JTextArea getTextArea() {
-    return textArea;
   }
 
   private JTextArea createTextArea() {
@@ -63,12 +61,6 @@ public class MainFrame extends JFrame {
             textAreaBorder, BorderFactory.createEmptyBorder(10, 10, 10, 10));
     textArea.setBorder(textAreaBorder);
     return textArea;
-  }
-
-  private SettingsPanel createSettingsPanel() {
-    SettingsPanel settingsPanel = new SettingsPanel();
-    settingsPanel.setPreferredSize(new Dimension(300, 200));
-    return settingsPanel;
   }
 
   private JMenuBar createMenuBar() {
@@ -89,16 +81,25 @@ public class MainFrame extends JFrame {
 
     JCheckBoxMenuItem wordWrapItem =
         new JCheckBoxMenuItem(StringResource.getString(VIEW_WORD_WRAP));
-    wordWrapItem.addActionListener(event -> {
-      JCheckBoxMenuItem item = (JCheckBoxMenuItem) event.getSource();
-      controller.setWordWrap(item.getState());
-    });
+    wordWrapItem.addActionListener(
+        event -> {
+          JCheckBoxMenuItem item = (JCheckBoxMenuItem) event.getSource();
+          controller.setWordWrap(item.getState());
+        });
     wordWrapItem.setSelected(true);
     viewMenu.add(wordWrapItem);
 
     menuBar.add(fileMenu);
     menuBar.add(viewMenu);
     return menuBar;
+  }
+
+  public SettingsPanel getSettingsPanel() {
+    return settingsPanel;
+  }
+
+  public JTextArea getTextArea() {
+    return textArea;
   }
 
   public void setController(Controller controller) {

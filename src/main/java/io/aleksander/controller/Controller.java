@@ -2,7 +2,7 @@ package io.aleksander.controller;
 
 import com.amazonaws.services.polly.model.Voice;
 import io.aleksander.gui.MainFrame;
-import io.aleksander.gui.viewmodel.VoiceSelectModel;
+import io.aleksander.gui.viewmodel.VoiceSelectModelElement;
 import io.aleksander.model.AudioStreamPlayer;
 import io.aleksander.model.TextToSpeechEngine;
 import io.aleksander.utils.StringResource;
@@ -11,11 +11,13 @@ import javazoom.jl.decoder.JavaLayerException;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.InputStream;
 
 import static io.aleksander.utils.StringResource.SOUND_PLAYBACK_ERROR;
 
-public class Controller {
+public class Controller implements PropertyChangeListener {
   private final TextToSpeechEngine textToSpeechEngine;
   AudioStreamPlayer audioStreamPlayer;
   MainFrame view;
@@ -54,15 +56,15 @@ public class Controller {
             event -> {
               String text = view.getTextArea().getText();
               text = text.trim();
-              if(!text.isEmpty()) {
+              if (!text.isEmpty()) {
                 speakText(text);
               }
             });
   }
 
   private void setUpVoiceSelector() {
-    JComboBox<VoiceSelectModel> voiceSelector = view.getSettingsPanel().getVoiceSelector();
-    DefaultComboBoxModel<VoiceSelectModel> voiceComboBoxModel = new DefaultComboBoxModel<>();
+    JComboBox<VoiceSelectModelElement> voiceSelector = view.getSettingsPanel().getVoiceSelector();
+    DefaultComboBoxModel<VoiceSelectModelElement> voiceComboBoxModel = new DefaultComboBoxModel<>();
 
     textToSpeechEngine
         .getAvailableVoices()
@@ -71,20 +73,20 @@ public class Controller {
     voiceSelector.setModel(voiceComboBoxModel);
     voiceSelector.addActionListener(
         action -> {
-          VoiceSelectModel selectedVoice =
-              (VoiceSelectModel) view.getSettingsPanel().getVoiceSelector().getSelectedItem();
+          VoiceSelectModelElement selectedVoice =
+              (VoiceSelectModelElement) view.getSettingsPanel().getVoiceSelector().getSelectedItem();
           textToSpeechEngine.setVoiceId(selectedVoice.getId());
         });
     voiceSelector.setSelectedIndex(0);
   }
 
-  private VoiceSelectModel convertVoiceToVoiceSelectModel(Voice voice) {
-    return new VoiceSelectModel(voice.getName() + ", " + voice.getGender(), voice.getId());
+  private VoiceSelectModelElement convertVoiceToVoiceSelectModel(Voice voice) {
+    return new VoiceSelectModelElement(voice.getName() + ", " + voice.getGender(), voice.getId());
   }
 
   private void setUpAudioPlayer() {
     audioStreamPlayer = new AudioStreamPlayer();
-    audioStreamPlayer.addPropertyChangeListener(view.getSettingsPanel());
+    audioStreamPlayer.addPropertyChangeListener(this);
   }
 
   private void setUpLanguageSelector() {
@@ -118,5 +120,14 @@ public class Controller {
             });
 
     thread.start();
+  }
+
+
+  @Override
+  public void propertyChange(PropertyChangeEvent evt) {
+    if (evt.getPropertyName().equals("isPlaying")) {
+      boolean isPlaying = (boolean) evt.getNewValue();
+      view.getSettingsPanel().getSpeakButton().setEnabled(!isPlaying);
+    }
   }
 }

@@ -15,21 +15,22 @@ import java.util.stream.Collectors;
 
 public class TextToSpeechEngine {
   private final AmazonPolly polly;
-  private String language;
-  private String voiceId;
   private final List<String> availableLanguages;
   private final List<Voice> allVoices;
+  private String language;
+  private String voiceId;
 
   public TextToSpeechEngine() {
     polly = AmazonPollyClientBuilder.defaultClient();
     DescribeVoicesRequest voicesRequest = new DescribeVoicesRequest();
     DescribeVoicesResult voicesResult = polly.describeVoices(voicesRequest);
 
-    availableLanguages = voicesResult.getVoices().stream()
-        .map(Voice::getLanguageName)
-        .distinct()
-        .sorted(String::compareTo)
-        .collect(Collectors.toList());
+    availableLanguages =
+        voicesResult.getVoices().stream()
+            .map(Voice::getLanguageName)
+            .distinct()
+            .sorted(String::compareTo)
+            .collect(Collectors.toList());
 
     allVoices = voicesResult.getVoices();
   }
@@ -43,7 +44,7 @@ public class TextToSpeechEngine {
   }
 
   public List<Voice> getAvailableVoices() {
-    if(language == null) {
+    if (language == null) {
       return allVoices;
     } else {
       return allVoices.stream()
