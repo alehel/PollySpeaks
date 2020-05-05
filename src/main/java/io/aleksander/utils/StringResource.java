@@ -18,6 +18,8 @@ public class StringResource {
   public static final String EXIT = "exit";
   public static final String ERROR = "error";
   public static final String SOUND_PLAYBACK_ERROR = "soundPlaybackError";
+  public static final String WARNING = "warning";
+  public static final String OVERWRITE_FILE = "overwriteFile";
 
   public static String getString(String propertyKey) {
     Objects.requireNonNull(propertyKey);
