@@ -1,6 +1,10 @@
 package io.aleksander.controller;
 
 import com.amazonaws.services.polly.model.Voice;
+import io.aleksander.controller.action.ExitAction;
+import io.aleksander.controller.action.OpenTextFileAction;
+import io.aleksander.controller.action.SaveTextFileAction;
+import io.aleksander.controller.action.WordWrapAction;
 import io.aleksander.gui.MainFrame;
 import io.aleksander.gui.viewmodel.VoiceSelectModelElement;
 import io.aleksander.model.AudioStreamPlayer;
@@ -25,28 +29,22 @@ public class Controller implements PropertyChangeListener {
   public Controller() {
     textToSpeechEngine = new TextToSpeechEngine();
     this.view = new MainFrame();
-    view.setController(this);
 
     setUpAudioPlayer();
     setUpLanguageSelector();
     setUpVoiceSelector();
     setUpSpeakButton();
-    setUpTextArea();
+    setUpMenuBar();
 
     view.setVisible(true);
   }
 
-  private void setUpTextArea() {
-    setWordWrap(true);
-  }
-
-  public void quitApplication() {
-    System.exit(0);
-  }
-
-  public void setWordWrap(boolean wordWrap) {
-    view.getTextArea().setLineWrap(wordWrap);
-    view.getTextArea().setWrapStyleWord(wordWrap);
+  private void setUpMenuBar() {
+    view.getOpenItem().addActionListener(new OpenTextFileAction(view, view.getTextArea()));
+    view.getSaveItem().addActionListener(new SaveTextFileAction(view, view.getTextArea()));
+    view.getWordWrapItem().addActionListener(new WordWrapAction(view.getTextArea()));
+    view.getWordWrapItem().doClick();
+    view.getExitItem().addActionListener(new ExitAction(view));
   }
 
   private void setUpSpeakButton() {
@@ -74,7 +72,8 @@ public class Controller implements PropertyChangeListener {
     voiceSelector.addActionListener(
         action -> {
           VoiceSelectModelElement selectedVoice =
-              (VoiceSelectModelElement) view.getSettingsPanel().getVoiceSelector().getSelectedItem();
+              (VoiceSelectModelElement)
+                  view.getSettingsPanel().getVoiceSelector().getSelectedItem();
           textToSpeechEngine.setVoiceId(selectedVoice.getId());
         });
     voiceSelector.setSelectedIndex(0);
@@ -104,24 +103,21 @@ public class Controller implements PropertyChangeListener {
   }
 
   public void speakText(String text) {
-    Thread thread =
-        new Thread(
-            () -> {
-              InputStream synthesizedText = textToSpeechEngine.convertTextToSpeech(text);
-              try {
-                audioStreamPlayer.playStream(synthesizedText);
-              } catch (JavaLayerException exception) {
-                JOptionPane.showMessageDialog(
-                    view,
-                    StringResource.getString(StringResource.ERROR),
-                    StringResource.getString(SOUND_PLAYBACK_ERROR),
-                    JOptionPane.ERROR_MESSAGE);
-              }
-            });
+    Thread thread = new Thread(() -> {
+      InputStream synthesizedText = textToSpeechEngine.convertTextToSpeech(text);
+      try {
+        audioStreamPlayer.playStream(synthesizedText);
+      } catch (JavaLayerException exception) {
+        JOptionPane.showMessageDialog(
+            view,
+            StringResource.getString(StringResource.ERROR),
+            StringResource.getString(SOUND_PLAYBACK_ERROR),
+            JOptionPane.ERROR_MESSAGE);
+      }
+    });
 
     thread.start();
   }
-
 
   @Override
   public void propertyChange(PropertyChangeEvent evt) {

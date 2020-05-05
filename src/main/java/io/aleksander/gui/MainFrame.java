@@ -1,6 +1,5 @@
 package io.aleksander.gui;
 
-import io.aleksander.controller.Controller;
 import io.aleksander.utils.StringResource;
 
 import javax.swing.BorderFactory;
@@ -10,16 +9,21 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JTextArea;
+import javax.swing.KeyStroke;
 import javax.swing.border.Border;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 
 import static io.aleksander.utils.StringResource.APPLICATION_TITLE;
 import static io.aleksander.utils.StringResource.EXIT;
 import static io.aleksander.utils.StringResource.FILE;
+import static io.aleksander.utils.StringResource.OPEN;
+import static io.aleksander.utils.StringResource.SAVE;
 import static io.aleksander.utils.StringResource.VIEW;
 import static io.aleksander.utils.StringResource.VIEW_WORD_WRAP;
 
@@ -27,7 +31,10 @@ public class MainFrame extends JFrame {
   private final SettingsPanel settingsPanel;
   private final JTextArea textArea;
   private final JMenuBar menuBar;
-  private Controller controller;
+  private JMenuItem exitItem;
+  private JMenuItem openItem;
+  private JCheckBoxMenuItem wordWrapItem;
+  private JMenuItem saveItem;
 
   public MainFrame() {
     // configure frame
@@ -70,28 +77,66 @@ public class MainFrame extends JFrame {
     JMenu fileMenu = new JMenu(StringResource.getString(FILE));
     fileMenu.setMnemonic(KeyEvent.VK_F);
 
-    JMenuItem exitItem = new JMenuItem(StringResource.getString(EXIT));
+    openItem = new JMenuItem(StringResource.getString(OPEN));
+    openItem.setMnemonic(KeyEvent.VK_O);
+    openItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK));
+    fileMenu.add(openItem);
+
+    saveItem = new JMenuItem(StringResource.getString(SAVE));
+    saveItem.setMnemonic(KeyEvent.VK_S);
+    saveItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK));
+    fileMenu.add(saveItem);
+
+    fileMenu.add(new JSeparator());
+
+    exitItem = new JMenuItem(StringResource.getString(EXIT));
     exitItem.setMnemonic(KeyEvent.VK_E);
-    exitItem.addActionListener(event -> controller.quitApplication());
     fileMenu.add(exitItem);
 
     // View menu
     JMenu viewMenu = new JMenu(StringResource.getString(VIEW));
     viewMenu.setMnemonic(KeyEvent.VK_V);
 
-    JCheckBoxMenuItem wordWrapItem =
-        new JCheckBoxMenuItem(StringResource.getString(VIEW_WORD_WRAP));
-    wordWrapItem.addActionListener(
-        event -> {
-          JCheckBoxMenuItem item = (JCheckBoxMenuItem) event.getSource();
-          controller.setWordWrap(item.getState());
-        });
-    wordWrapItem.setSelected(true);
+    wordWrapItem = new JCheckBoxMenuItem(StringResource.getString(VIEW_WORD_WRAP));
+    wordWrapItem.setMnemonic(KeyEvent.VK_W);
+    wordWrapItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, InputEvent.ALT_DOWN_MASK));
     viewMenu.add(wordWrapItem);
 
     menuBar.add(fileMenu);
     menuBar.add(viewMenu);
     return menuBar;
+  }
+
+  public JMenuItem getSaveItem() {
+    return saveItem;
+  }
+
+  public void setSaveItem(JMenuItem saveItem) {
+    this.saveItem = saveItem;
+  }
+
+  public JCheckBoxMenuItem getWordWrapItem() {
+    return wordWrapItem;
+  }
+
+  public void setWordWrapItem(JCheckBoxMenuItem wordWrapItem) {
+    this.wordWrapItem = wordWrapItem;
+  }
+
+  public JMenuItem getOpenItem() {
+    return openItem;
+  }
+
+  public void setOpenItem(JMenuItem openItem) {
+    this.openItem = openItem;
+  }
+
+  public JMenuItem getExitItem() {
+    return exitItem;
+  }
+
+  public void setExitItem(JMenuItem exitItem) {
+    this.exitItem = exitItem;
   }
 
   public SettingsPanel getSettingsPanel() {
@@ -100,9 +145,5 @@ public class MainFrame extends JFrame {
 
   public JTextArea getTextArea() {
     return textArea;
-  }
-
-  public void setController(Controller controller) {
-    this.controller = controller;
   }
 }
