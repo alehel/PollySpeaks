@@ -1,12 +1,13 @@
 package io.aleksander.controller;
 
 import com.amazonaws.services.polly.model.Voice;
-import io.aleksander.controller.action.ExitAction;
-import io.aleksander.controller.action.NewFileAction;
-import io.aleksander.controller.action.OpenTextFileAction;
-import io.aleksander.controller.action.SaveAsTextFileAction;
-import io.aleksander.controller.action.SaveTextFileAction;
-import io.aleksander.controller.action.WordWrapAction;
+import io.aleksander.controller.actions.ExitAction;
+import io.aleksander.controller.actions.NewFileAction;
+import io.aleksander.controller.actions.OpenTextFileAction;
+import io.aleksander.controller.actions.SaveAsTextFileAction;
+import io.aleksander.controller.actions.SaveTextFileAction;
+import io.aleksander.controller.actions.WordWrapAction;
+import io.aleksander.controller.listeners.TextAreaChangeListener;
 import io.aleksander.gui.MainFrame;
 import io.aleksander.gui.viewmodel.VoiceSelectModelElement;
 import io.aleksander.model.AudioStreamPlayer;
@@ -25,13 +26,13 @@ import java.io.InputStream;
 import static io.aleksander.utils.StringResource.APPLICATION_TITLE;
 import static io.aleksander.utils.StringResource.SOUND_PLAYBACK_ERROR;
 
-public class Controller implements PropertyChangeListener {
+public class MainController implements PropertyChangeListener {
   private final TextToSpeechEngine textToSpeechEngine;
   DocumentMetadata documentMetadata;
   AudioStreamPlayer audioStreamPlayer;
   MainFrame view;
 
-  public Controller() {
+  public MainController() {
     textToSpeechEngine = new TextToSpeechEngine();
     this.view = new MainFrame();
     setUpDocumentHandler();
@@ -47,20 +48,12 @@ public class Controller implements PropertyChangeListener {
   private void setUpDocumentHandler() {
     documentMetadata = new DocumentMetadata();
     documentMetadata.addPropertyChangeListener(this);
-    this.view.getTextArea().getDocument().addDocumentListener(new TextAreaChangeHandler(documentMetadata));
+    this.view.getTextArea().getDocument().addDocumentListener(new TextAreaChangeListener(documentMetadata));
     setWindowTitle(documentMetadata);
   }
 
   private void setUpMenuBar() {
-    view.getNewItem().addActionListener(new NewFileAction(view, view.getTextArea(), documentMetadata));
-    view.getOpenItem().addActionListener(new OpenTextFileAction(view, view.getTextArea()));
-    view.getSaveItem()
-        .addActionListener(new SaveTextFileAction(view, view.getTextArea(), documentMetadata));
-    view.getSaveAsItem()
-        .addActionListener(new SaveAsTextFileAction(view, view.getTextArea(), documentMetadata));
-    view.getWordWrapItem().addActionListener(new WordWrapAction(view.getTextArea()));
-    view.getWordWrapItem().doClick();
-    view.getExitItem().addActionListener(new ExitAction(view));
+    new ApplicationMenuBarController(view, view.getTextArea(), documentMetadata);
   }
 
   private void setUpSpeakButton() {
@@ -145,10 +138,6 @@ public class Controller implements PropertyChangeListener {
       case "isPlaying":
         boolean isPlaying = (boolean) evt.getNewValue();
         view.getSettingsPanel().getSpeakButton().setEnabled(!isPlaying);
-        break;
-      case "documentPath":
-        String documentPath = (String) evt.getNewValue();
-        view.getSaveItem().setEnabled(documentPath != null);
         break;
       case "documentName":
       case "textIsAltered":

@@ -1,4 +1,4 @@
-package io.aleksander.controller.action;
+package io.aleksander.controller.actions;
 
 import io.aleksander.gui.MainFrame;
 import io.aleksander.model.DocumentMetadata;

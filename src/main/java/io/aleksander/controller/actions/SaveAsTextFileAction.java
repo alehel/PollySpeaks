@@ -1,4 +1,4 @@
-package io.aleksander.controller.action;
+package io.aleksander.controller.actions;
 
 import io.aleksander.model.DocumentMetadata;
 import io.aleksander.utils.FileHandler;

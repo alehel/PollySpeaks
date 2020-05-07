@@ -1,4 +1,4 @@
-package io.aleksander.controller;
+package io.aleksander.controller.listeners;
 
 import io.aleksander.model.DocumentMetadata;
 
@@ -9,10 +9,10 @@ import javax.swing.event.DocumentListener;
  * Responsible for keeping the Document objects values up to date
  * with changes to the JTextArea.
  */
-public class TextAreaChangeHandler implements DocumentListener {
+public class TextAreaChangeListener implements DocumentListener {
   private final DocumentMetadata documentMetadata;
 
-  public TextAreaChangeHandler(DocumentMetadata documentMetadata) {
+  public TextAreaChangeListener(DocumentMetadata documentMetadata) {
     this.documentMetadata = documentMetadata;
   }
 

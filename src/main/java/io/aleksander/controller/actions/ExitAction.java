@@ -1,4 +1,4 @@
-package io.aleksander.controller.action;
+package io.aleksander.controller.actions;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;

@@ -1,4 +1,4 @@
-package io.aleksander.controller.action;
+package io.aleksander.controller.actions;
 
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JTextArea;

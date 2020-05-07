@@ -1,4 +1,4 @@
-package io.aleksander.controller.action;
+package io.aleksander.controller.actions;
 
 import io.aleksander.utils.FileHandler;
 import io.aleksander.utils.StringResource;
@@ -15,8 +15,6 @@ import java.nio.file.NoSuchFileException;
 import static io.aleksander.utils.StringResource.ERROR;
 import static io.aleksander.utils.StringResource.ERROR_READING_FILE;
 import static io.aleksander.utils.StringResource.NO_SUCH_FILE;
-import static io.aleksander.utils.StringResource.OVERWRITE_FILE;
-import static io.aleksander.utils.StringResource.WARNING;
 
 public class OpenTextFileAction implements ActionListener {
   private final Component parent;
