@@ -1,5 +1,7 @@
 package io.aleksander.model;
 
+import java.util.Objects;
+
 public class DocumentMetadata extends AbstractModel {
   private boolean textIsAltered;
   private String documentPath;
@@ -7,15 +9,11 @@ public class DocumentMetadata extends AbstractModel {
 
   public DocumentMetadata() {
     textIsAltered = false;
-    documentName = "Unknown";
+    documentName = null;
   }
 
   public String getDocumentName() {
-    if(documentName == null) {
-      return "Unknown";
-    } else {
-      return documentName;
-    }
+    return Objects.requireNonNullElse(documentName, "Unknown");
   }
 
   public void setDocumentName(String documentName) {
