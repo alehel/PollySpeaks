@@ -27,17 +27,14 @@ import static io.aleksander.utils.StringResource.SOUND_PLAYBACK_ERROR;
 
 public class Controller implements PropertyChangeListener {
   private final TextToSpeechEngine textToSpeechEngine;
-  private final DocumentMetadata documentMetadata;
+  DocumentMetadata documentMetadata;
   AudioStreamPlayer audioStreamPlayer;
   MainFrame view;
 
   public Controller() {
     textToSpeechEngine = new TextToSpeechEngine();
-    documentMetadata = new DocumentMetadata();
-    documentMetadata.addPropertyChangeListener(this);
     this.view = new MainFrame();
-    this.view.getTextArea().getDocument().addDocumentListener(new TextAreaChangeHandler(documentMetadata));
-    setWindowTitle(documentMetadata);
+    setUpDocumentHandler();
     setUpAudioPlayer();
     setUpLanguageSelector();
     setUpVoiceSelector();
@@ -45,6 +42,13 @@ public class Controller implements PropertyChangeListener {
     setUpMenuBar();
 
     view.setVisible(true);
+  }
+
+  private void setUpDocumentHandler() {
+    documentMetadata = new DocumentMetadata();
+    documentMetadata.addPropertyChangeListener(this);
+    this.view.getTextArea().getDocument().addDocumentListener(new TextAreaChangeHandler(documentMetadata));
+    setWindowTitle(documentMetadata);
   }
 
   private void setUpMenuBar() {
