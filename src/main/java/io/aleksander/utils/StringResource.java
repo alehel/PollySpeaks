@@ -11,8 +11,10 @@ public class StringResource {
   public static final String SPEAK = "speak";
   public static final String VOICE_SETTINGS = "voiceSettings";
   public static final String FILE = "file";
+  public static final String NEW = "new";
   public static final String OPEN = "open";
   public static final String SAVE = "save";
+  public static final String SAVE_AS = "saveAs";
   public static final String VIEW = "view";
   public static final String VIEW_WORD_WRAP = "viewWordWrap";
   public static final String EXIT = "exit";
