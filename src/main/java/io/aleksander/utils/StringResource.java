@@ -22,6 +22,8 @@ public class StringResource {
   public static final String SOUND_PLAYBACK_ERROR = "soundPlaybackError";
   public static final String WARNING = "warning";
   public static final String OVERWRITE_FILE = "overwriteFile";
+  public static final String NO_SUCH_FILE = "noSuchFile";
+  public static final String ERROR_READING_FILE = "errorReadingFile";
 
   public static String getString(String propertyKey) {
     Objects.requireNonNull(propertyKey);
