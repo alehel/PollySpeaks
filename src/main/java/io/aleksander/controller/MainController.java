@@ -1,14 +1,8 @@
 package io.aleksander.controller;
 
 import com.amazonaws.services.polly.model.Voice;
-import io.aleksander.controller.actions.ExitAction;
-import io.aleksander.controller.actions.NewFileAction;
-import io.aleksander.controller.actions.OpenTextFileAction;
-import io.aleksander.controller.actions.SaveAsTextFileAction;
-import io.aleksander.controller.actions.SaveTextFileAction;
-import io.aleksander.controller.actions.WordWrapAction;
 import io.aleksander.controller.listeners.TextAreaChangeListener;
-import io.aleksander.gui.MainFrame;
+import io.aleksander.gui.Component;
 import io.aleksander.gui.viewmodel.VoiceSelectModelElement;
 import io.aleksander.model.AudioStreamPlayer;
 import io.aleksander.model.DocumentMetadata;
@@ -30,11 +24,11 @@ public class MainController implements PropertyChangeListener {
   private final TextToSpeechEngine textToSpeechEngine;
   DocumentMetadata documentMetadata;
   AudioStreamPlayer audioStreamPlayer;
-  MainFrame view;
+  Component view;
 
   public MainController() {
     textToSpeechEngine = new TextToSpeechEngine();
-    this.view = new MainFrame();
+    this.view = new Component();
     setUpDocumentHandler();
     setUpAudioPlayer();
     setUpLanguageSelector();

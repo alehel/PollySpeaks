@@ -22,11 +22,11 @@ import java.awt.Dimension;
 import static io.aleksander.utils.StringResource.APPLICATION_TITLE;
 
 
-public class MainFrame extends JFrame {
+public class Component extends JFrame {
   private final SettingsPanel settingsPanel;
   private final JTextArea textArea;
 
-  public MainFrame() {
+  public Component() {
     // configure frame
     setTitle(StringResource.getString(APPLICATION_TITLE));
     setMinimumSize(new Dimension(600, 500));

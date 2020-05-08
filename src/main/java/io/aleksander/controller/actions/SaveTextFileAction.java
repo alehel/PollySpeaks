@@ -1,6 +1,6 @@
 package io.aleksander.controller.actions;
 
-import io.aleksander.gui.MainFrame;
+import io.aleksander.gui.Component;
 import io.aleksander.model.DocumentMetadata;
 import io.aleksander.utils.FileHandler;
 
@@ -12,11 +12,11 @@ import java.io.IOException;
 
 public class SaveTextFileAction implements ActionListener {
   private final JTextArea textArea;
-  private final MainFrame view;
+  private final Component view;
   private final DocumentMetadata documentMetadata;
 
-  public SaveTextFileAction(MainFrame view, JTextArea textArea, DocumentMetadata documentMetadata) {
-    this.view = view;
+  public SaveTextFileAction(Component parent, JTextArea textArea, DocumentMetadata documentMetadata) {
+    this.view = parent;
     this.textArea = textArea;
     this.documentMetadata = documentMetadata;
   }

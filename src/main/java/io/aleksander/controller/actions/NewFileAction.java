@@ -1,6 +1,6 @@
 package io.aleksander.controller.actions;
 
-import io.aleksander.gui.MainFrame;
+import io.aleksander.gui.Component;
 import io.aleksander.model.DocumentMetadata;
 import io.aleksander.utils.StringResource;
 
@@ -14,11 +14,11 @@ import static io.aleksander.utils.StringResource.WARNING;
 
 public class NewFileAction implements ActionListener {
   private final DocumentMetadata documentMetadata;
-  private final MainFrame view;
+  private final Component view;
   private final JTextArea textArea;
 
-  public NewFileAction(MainFrame view, JTextArea textArea, DocumentMetadata documentMetadata) {
-    this.view = view;
+  public NewFileAction(Component parent, JTextArea textArea, DocumentMetadata documentMetadata) {
+    this.view = parent;
     this.textArea = textArea;
     this.documentMetadata = documentMetadata;
   }
