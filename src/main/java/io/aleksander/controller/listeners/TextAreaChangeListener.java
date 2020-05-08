@@ -5,10 +5,7 @@ import io.aleksander.model.DocumentMetadata;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-/**
- * Responsible for keeping the Document objects values up to date
- * with changes to the JTextArea.
- */
+/** Responsible for keeping the Document objects values up to date with changes to the JTextArea. */
 public class TextAreaChangeListener implements DocumentListener {
   private final DocumentMetadata documentMetadata;
 

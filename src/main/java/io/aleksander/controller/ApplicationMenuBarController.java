@@ -7,17 +7,17 @@ import io.aleksander.controller.actions.SaveAsTextFileAction;
 import io.aleksander.controller.actions.SaveTextFileAction;
 import io.aleksander.controller.actions.WordWrapAction;
 import io.aleksander.gui.ApplicationMenuBar;
-import io.aleksander.gui.Component;
+import io.aleksander.gui.MainFrame;
 import io.aleksander.model.DocumentMetadata;
 
 import javax.swing.JTextArea;
 
 public class ApplicationMenuBarController {
-  private final Component parent;
+  private final MainFrame parent;
   private final ApplicationMenuBar view;
 
   public ApplicationMenuBarController(
-      Component parent, JTextArea textArea, DocumentMetadata documentMetadata) {
+      MainFrame parent, JTextArea textArea, DocumentMetadata documentMetadata) {
     this.parent = parent;
     view = new ApplicationMenuBar();
     attachActionListeners(textArea, documentMetadata);
@@ -33,7 +33,7 @@ public class ApplicationMenuBarController {
         .addActionListener(new SaveAsTextFileAction(parent, textArea, documentMetadata));
     view.getWordWrapItem().addActionListener(new WordWrapAction(textArea));
     view.getWordWrapItem().doClick();
-    view.getExitItem().addActionListener(new ExitAction(view));
+    view.getExitItem().addActionListener(new ExitAction(parent, documentMetadata));
     parent.setJMenuBar(new ApplicationMenuBar());
   }
 }

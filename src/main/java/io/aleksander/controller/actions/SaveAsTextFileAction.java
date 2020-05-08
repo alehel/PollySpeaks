@@ -22,7 +22,8 @@ public class SaveAsTextFileAction implements ActionListener {
   private final JTextArea textArea;
   private final DocumentMetadata documentMetadata;
 
-  public SaveAsTextFileAction(Component parent, JTextArea textArea, DocumentMetadata documentMetadata) {
+  public SaveAsTextFileAction(
+      Component parent, JTextArea textArea, DocumentMetadata documentMetadata) {
     this.parent = parent;
     this.textArea = textArea;
     this.documentMetadata = documentMetadata;
@@ -31,20 +32,21 @@ public class SaveAsTextFileAction implements ActionListener {
   @Override
   public void actionPerformed(ActionEvent e) {
     JFileChooser fileChooser = new JFileChooser();
-    if(fileChooser.showSaveDialog(parent) == JFileChooser.APPROVE_OPTION) {
+    if (fileChooser.showSaveDialog(parent) == JFileChooser.APPROVE_OPTION) {
       try {
         String text = textArea.getText();
         File selectedFile = fileChooser.getSelectedFile();
 
-        if(selectedFile.exists()) {
-          int userChoice = JOptionPane.showConfirmDialog(
-              parent,
-              StringResource.getString(OVERWRITE_FILE),
-              StringResource.getString(WARNING),
-              JOptionPane.YES_NO_OPTION,
-              JOptionPane.WARNING_MESSAGE);
+        if (selectedFile.exists()) {
+          int userChoice =
+              JOptionPane.showConfirmDialog(
+                  parent,
+                  StringResource.getString(OVERWRITE_FILE),
+                  StringResource.getString(WARNING),
+                  JOptionPane.YES_NO_OPTION,
+                  JOptionPane.WARNING_MESSAGE);
 
-          if(userChoice != JOptionPane.YES_OPTION) {
+          if (userChoice != JOptionPane.YES_OPTION) {
             return;
           }
         }

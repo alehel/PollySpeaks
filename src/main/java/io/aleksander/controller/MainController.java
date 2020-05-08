@@ -2,7 +2,7 @@ package io.aleksander.controller;
 
 import com.amazonaws.services.polly.model.Voice;
 import io.aleksander.controller.listeners.TextAreaChangeListener;
-import io.aleksander.gui.Component;
+import io.aleksander.gui.MainFrame;
 import io.aleksander.gui.viewmodel.VoiceSelectModelElement;
 import io.aleksander.model.AudioStreamPlayer;
 import io.aleksander.model.DocumentMetadata;
@@ -24,11 +24,11 @@ public class MainController implements PropertyChangeListener {
   private final TextToSpeechEngine textToSpeechEngine;
   DocumentMetadata documentMetadata;
   AudioStreamPlayer audioStreamPlayer;
-  Component view;
+  MainFrame view;
 
   public MainController() {
     textToSpeechEngine = new TextToSpeechEngine();
-    this.view = new Component();
+    this.view = new MainFrame();
     setUpDocumentHandler();
     setUpAudioPlayer();
     setUpLanguageSelector();
@@ -42,7 +42,10 @@ public class MainController implements PropertyChangeListener {
   private void setUpDocumentHandler() {
     documentMetadata = new DocumentMetadata();
     documentMetadata.addPropertyChangeListener(this);
-    this.view.getTextArea().getDocument().addDocumentListener(new TextAreaChangeListener(documentMetadata));
+    this.view
+        .getTextArea()
+        .getDocument()
+        .addDocumentListener(new TextAreaChangeListener(documentMetadata));
     setWindowTitle(documentMetadata);
   }
 

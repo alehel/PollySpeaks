@@ -1,32 +1,23 @@
 package io.aleksander.gui;
 
-import io.aleksander.controller.ApplicationMenuBarController;
 import io.aleksander.utils.StringResource;
 
 import javax.swing.BorderFactory;
-import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
 import javax.swing.JTextArea;
-import javax.swing.KeyStroke;
 import javax.swing.border.Border;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 
-
 import static io.aleksander.utils.StringResource.APPLICATION_TITLE;
 
-
-public class Component extends JFrame {
+public class MainFrame extends JFrame {
   private final SettingsPanel settingsPanel;
   private final JTextArea textArea;
 
-  public Component() {
+  public MainFrame() {
     // configure frame
     setTitle(StringResource.getString(APPLICATION_TITLE));
     setMinimumSize(new Dimension(600, 500));

@@ -1,11 +1,11 @@
 package io.aleksander.controller.actions;
 
-import io.aleksander.gui.Component;
 import io.aleksander.model.DocumentMetadata;
 import io.aleksander.utils.StringResource;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
