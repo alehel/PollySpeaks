@@ -1,5 +1,6 @@
 package io.aleksander.controller.actions;
 
+import io.aleksander.model.DocumentMetadata;
 import io.aleksander.utils.FileHandler;
 import io.aleksander.utils.StringResource;
 
@@ -9,6 +10,7 @@ import javax.swing.JTextArea;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.NoSuchFileException;
 
@@ -19,10 +21,12 @@ import static io.aleksander.utils.StringResource.NO_SUCH_FILE;
 public class OpenTextFileAction implements ActionListener {
   private final Component parent;
   private final JTextArea textArea;
+  private final DocumentMetadata documentMetadata;
 
-  public OpenTextFileAction(Component parent, JTextArea textArea) {
+  public OpenTextFileAction(Component parent, JTextArea textArea, DocumentMetadata documentMetadata) {
     this.parent = parent;
     this.textArea = textArea;
+    this.documentMetadata = documentMetadata;
   }
 
   @Override
@@ -30,9 +34,13 @@ public class OpenTextFileAction implements ActionListener {
     JFileChooser fileChooser = new JFileChooser();
     if (fileChooser.showOpenDialog(parent) == JFileChooser.APPROVE_OPTION) {
       try {
+        File selectedFile = fileChooser.getSelectedFile();
         String textFromFile =
-            FileHandler.readTextFromFile(fileChooser.getSelectedFile().getAbsolutePath());
-        textArea.setText(textFromFile);
+            FileHandler.readTextFromFile(selectedFile.getAbsolutePath());
+        textArea  .setText(textFromFile);
+        documentMetadata.setTextIsAltered(false);
+        documentMetadata.setDocumentName(selectedFile.getName());
+        documentMetadata.setDocumentPath(selectedFile.getAbsolutePath());
       } catch (NoSuchFileException exception) {
         JOptionPane.showMessageDialog(
             parent,

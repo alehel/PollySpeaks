@@ -26,7 +26,7 @@ public class ApplicationMenuBarController {
 
   private void attachActionListeners(JTextArea textArea, DocumentMetadata documentMetadata) {
     view.getNewItem().addActionListener(new NewFileAction(parent, textArea, documentMetadata));
-    view.getOpenItem().addActionListener(new OpenTextFileAction(parent, textArea));
+    view.getOpenItem().addActionListener(new OpenTextFileAction(parent, textArea, documentMetadata));
     view.getSaveItem()
         .addActionListener(new SaveTextFileAction(parent, textArea, documentMetadata));
     view.getSaveAsItem()
