@@ -23,7 +23,7 @@ public class SettingsPanel extends JPanel {
   private final Insets labelInsets = new Insets(0, 0, 0, 5);
   private final Insets emptyInsets = new Insets(0, 0, 0, 0);
 
-  private final Dimension comboBoxPreferredSize = new Dimension(150, 25);
+  private final Dimension comboBoxPreferredSize = new Dimension(150, 20);
   private JLabel languageLabel;
   private JComboBox<String> languageSelector;
   private JLabel voiceLabel;

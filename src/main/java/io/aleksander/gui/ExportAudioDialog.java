@@ -23,7 +23,7 @@ public class ExportAudioDialog extends JDialog {
   private final Insets emptyInsets = new Insets(0, 0, 0, 0);
   private final Insets buttonInsets = new Insets(10, 0, 0, 12);
 
-  private final Dimension comboBoxPreferredSize = new Dimension(150, 25);
+  private final Dimension comboBoxPreferredSize = new Dimension(150, 20);
   private JLabel outputFormat;
   private JComboBox<OutputFormat> outputFormatSelector;
   private JButton exportButton;
