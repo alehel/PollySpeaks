@@ -13,10 +13,11 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class TextToSpeechEngine {
+public class TextToSpeechEngine extends AbstractModel {
   private final AmazonPolly polly;
   private final List<String> availableLanguages;
   private final List<Voice> allVoices;
+  private List<Voice> availableVoices;
   private String language;
   private String voiceId;
 
@@ -33,6 +34,7 @@ public class TextToSpeechEngine {
             .collect(Collectors.toList());
 
     allVoices = voicesResult.getVoices();
+    availableVoices = voicesResult.getVoices();
   }
 
   public String getLanguage() {
@@ -40,17 +42,25 @@ public class TextToSpeechEngine {
   }
 
   public void setLanguage(String language) {
+    String oldValue = this.language;
     this.language = language;
+    firePropertyChange("language", oldValue, language);
+
+    List<Voice> availableVoicesBasedOnLanguage = allVoices.stream()
+        .filter(voice -> voice.getLanguageName().equals(language))
+        .collect(Collectors.toList());
+
+    setAvailableVoices(availableVoicesBasedOnLanguage);
+  }
+
+  public void setAvailableVoices(List<Voice> voices) {
+    List<Voice> oldValue = this.availableVoices;
+    this.availableVoices = voices;
+    firePropertyChange("availableVoices", oldValue, voices);
   }
 
   public List<Voice> getAvailableVoices() {
-    if (language == null) {
-      return allVoices;
-    } else {
-      return allVoices.stream()
-          .filter(voice -> voice.getLanguageName().equals(language))
-          .collect(Collectors.toList());
-    }
+    return availableVoices;
   }
 
   public List<String> getAvailableLanguages() {
@@ -58,7 +68,9 @@ public class TextToSpeechEngine {
   }
 
   public void setVoiceId(String voiceId) {
+    String oldValue = this.voiceId;
     this.voiceId = voiceId;
+    firePropertyChange("voiceId", oldValue, voiceId);
   }
 
   public InputStream convertTextToSpeech(String text) {

@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.InputStream;
+import java.util.List;
 
 import static io.aleksander.utils.StringResource.APPLICATION_TITLE;
 import static io.aleksander.utils.StringResource.SOUND_PLAYBACK_ERROR;
@@ -28,11 +29,13 @@ public class MainController implements PropertyChangeListener {
 
   public MainController() {
     textToSpeechEngine = new TextToSpeechEngine();
+    textToSpeechEngine.addPropertyChangeListener(this);
+
     this.view = new MainFrame();
+
     setUpDocumentHandler();
     setUpAudioPlayer();
     setUpLanguageSelector();
-    setUpVoiceSelector();
     setUpSpeakButton();
     setUpMenuBar();
 
@@ -49,8 +52,22 @@ public class MainController implements PropertyChangeListener {
     setWindowTitle(documentMetadata);
   }
 
-  private void setUpMenuBar() {
-    new ApplicationMenuBarController(view, view.getTextArea(), documentMetadata);
+  private void setUpAudioPlayer() {
+    audioStreamPlayer = new AudioStreamPlayer();
+    audioStreamPlayer.addPropertyChangeListener(this);
+  }
+
+  private void setUpLanguageSelector() {
+    JComboBox<String> languageSelector = view.getSettingsPanel().getLanguageSelector();
+    DefaultComboBoxModel<String> languageComboBoxModel = new DefaultComboBoxModel<>();
+    languageComboBoxModel.addAll(textToSpeechEngine.getAvailableLanguages());
+    languageSelector.setModel(languageComboBoxModel);
+    languageSelector.addActionListener(
+        action -> {
+          String language = (String) languageSelector.getSelectedItem();
+          textToSpeechEngine.setLanguage(language);
+        });
+    languageSelector.setSelectedIndex(0);
   }
 
   private void setUpSpeakButton() {
@@ -66,46 +83,18 @@ public class MainController implements PropertyChangeListener {
             });
   }
 
-  private void setUpVoiceSelector() {
-    JComboBox<VoiceSelectModelElement> voiceSelector = view.getSettingsPanel().getVoiceSelector();
-    DefaultComboBoxModel<VoiceSelectModelElement> voiceComboBoxModel = new DefaultComboBoxModel<>();
-
-    textToSpeechEngine
-        .getAvailableVoices()
-        .forEach(voice -> voiceComboBoxModel.addElement(convertVoiceToVoiceSelectModel(voice)));
-
-    voiceSelector.setModel(voiceComboBoxModel);
-    voiceSelector.addActionListener(
-        action -> {
-          VoiceSelectModelElement selectedVoice =
-              (VoiceSelectModelElement)
-                  view.getSettingsPanel().getVoiceSelector().getSelectedItem();
-          textToSpeechEngine.setVoiceId(selectedVoice.getId());
-        });
-    voiceSelector.setSelectedIndex(0);
+  private void setUpMenuBar() {
+    new ApplicationMenuBarController(view, view.getTextArea(), documentMetadata);
   }
 
-  private VoiceSelectModelElement convertVoiceToVoiceSelectModel(Voice voice) {
-    return new VoiceSelectModelElement(voice.getName() + ", " + voice.getGender(), voice.getId());
-  }
+  private void setWindowTitle(DocumentMetadata documentMetadata) {
+    String name = documentMetadata.getDocumentName();
 
-  private void setUpAudioPlayer() {
-    audioStreamPlayer = new AudioStreamPlayer();
-    audioStreamPlayer.addPropertyChangeListener(this);
-  }
+    if (documentMetadata.isTextIsAltered()) {
+      name = "*" + name;
+    }
 
-  private void setUpLanguageSelector() {
-    JComboBox<String> languageSelector = view.getSettingsPanel().getLanguageSelector();
-    DefaultComboBoxModel<String> languageComboBoxModel = new DefaultComboBoxModel<>();
-    languageComboBoxModel.addAll(textToSpeechEngine.getAvailableLanguages());
-    languageSelector.setModel(languageComboBoxModel);
-    languageSelector.addActionListener(
-        action -> {
-          String language = (String) languageSelector.getSelectedItem();
-          textToSpeechEngine.setLanguage(language);
-          setUpVoiceSelector();
-        });
-    languageSelector.setSelectedIndex(0);
+    view.setTitle(name + " - " + StringResource.getString(APPLICATION_TITLE));
   }
 
   public void speakText(String text) {
@@ -129,29 +118,38 @@ public class MainController implements PropertyChangeListener {
 
   @Override
   public void propertyChange(PropertyChangeEvent evt) {
-    System.out.println(
-        "Received event: " + evt.getPropertyName() + " new value " + evt.getNewValue());
     switch (evt.getPropertyName()) {
-      case "isPlaying":
+      case "isPlaying" -> {
         boolean isPlaying = (boolean) evt.getNewValue();
         view.getSettingsPanel().getSpeakButton().setEnabled(!isPlaying);
-        break;
-      case "documentName":
-      case "textIsAltered":
-        setWindowTitle(documentMetadata);
-        break;
-      default:
-        System.out.println("Ignoring unknown property: " + evt.getPropertyName());
+      }
+      case "documentName", "textIsAltered" -> setWindowTitle(documentMetadata);
+      case "availableVoices" -> {
+        if(evt.getNewValue() instanceof List<?>) {
+          setAvailableVoices((List<Voice>) evt.getNewValue());
+        }
+      }
+      default -> System.out.println("Ignoring property: " + evt.getPropertyName());
     }
   }
 
-  private void setWindowTitle(DocumentMetadata documentMetadata) {
-    String name = documentMetadata.getDocumentName();
+  private void setAvailableVoices(List<Voice> availableVoices) {
+    JComboBox<VoiceSelectModelElement> voiceSelector = view.getSettingsPanel().getVoiceSelector();
+    DefaultComboBoxModel<VoiceSelectModelElement> voiceComboBoxModel = new DefaultComboBoxModel<>();
 
-    if (documentMetadata.isTextIsAltered()) {
-      name = "*" + name;
-    }
+    availableVoices
+        .forEach(voice -> voiceComboBoxModel.addElement(convertVoiceToVoiceSelectModel(voice)));
 
-    view.setTitle(name + " - " + StringResource.getString(APPLICATION_TITLE));
+    voiceSelector.setModel(voiceComboBoxModel);
+    voiceSelector.addActionListener(
+        action -> {
+          VoiceSelectModelElement selectedVoice = (VoiceSelectModelElement) voiceSelector.getSelectedItem();
+          textToSpeechEngine.setVoiceId(selectedVoice.getId());
+        });
+    voiceSelector.setSelectedIndex(0);
+  }
+
+  private VoiceSelectModelElement convertVoiceToVoiceSelectModel(Voice voice) {
+    return new VoiceSelectModelElement(voice.getName() + ", " + voice.getGender(), voice.getId());
   }
 }

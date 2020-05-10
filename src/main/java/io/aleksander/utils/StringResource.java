@@ -25,6 +25,7 @@ public class StringResource {
   public static final String NO_SUCH_FILE = "noSuchFile";
   public static final String ERROR_READING_FILE = "errorReadingFile";
   public static final String FILE_NOT_SAVED = "fileNotSaved";
+  public static final String AWS_SDK_ERROR = "awsSdkError";
 
   public static String getString(String propertyKey) {
     Objects.requireNonNull(propertyKey);
