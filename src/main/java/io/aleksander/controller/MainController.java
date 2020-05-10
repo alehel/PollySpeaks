@@ -1,6 +1,7 @@
 package io.aleksander.controller;
 
 import com.amazonaws.services.polly.model.Voice;
+import io.aleksander.controller.actions.ExitAction;
 import io.aleksander.controller.actions.SpeakTextAction;
 import io.aleksander.controller.listeners.TextAreaChangeListener;
 import io.aleksander.gui.MainFrame;
@@ -12,6 +13,9 @@ import io.aleksander.utils.StringResource;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
@@ -36,6 +40,7 @@ public class MainController implements PropertyChangeListener {
     setUpLanguageSelector();
     setUpSpeakButton();
     setUpMenuBar();
+    setWindowCloseBehaviour();
 
     view.setVisible(true);
   }
@@ -79,6 +84,17 @@ public class MainController implements PropertyChangeListener {
 
   private void setUpMenuBar() {
     new ApplicationMenuBarController(view, view.getTextArea(), documentMetadata);
+  }
+
+  private void setWindowCloseBehaviour() {
+    view.addWindowListener(new WindowAdapter() {
+      @Override
+      public void windowClosing(WindowEvent windowEvent) {
+        (new ExitAction(view, documentMetadata)).performAction();
+      }
+    });
+
+    view.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
   }
 
   private void setWindowTitle(DocumentMetadata documentMetadata) {
