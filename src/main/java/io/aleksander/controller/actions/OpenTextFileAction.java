@@ -1,5 +1,6 @@
 package io.aleksander.controller.actions;
 
+import io.aleksander.controller.FileFilters;
 import io.aleksander.model.DocumentMetadata;
 import io.aleksander.utils.FileHandler;
 import io.aleksander.utils.StringResource;
@@ -31,6 +32,8 @@ public class OpenTextFileAction implements Action {
   @Override
   public void performAction() {
     JFileChooser fileChooser = new JFileChooser();
+    fileChooser.setAcceptAllFileFilterUsed(false);
+    fileChooser.addChoosableFileFilter(FileFilters.getFileFilterForText());
     if (fileChooser.showOpenDialog(parent) == JFileChooser.APPROVE_OPTION) {
       try {
         File selectedFile = fileChooser.getSelectedFile();

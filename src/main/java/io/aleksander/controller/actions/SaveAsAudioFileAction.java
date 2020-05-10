@@ -1,6 +1,7 @@
 package io.aleksander.controller.actions;
 
 import com.amazonaws.services.polly.model.OutputFormat;
+import io.aleksander.controller.FileFilters;
 import io.aleksander.model.TextToSpeechEngine;
 import io.aleksander.utils.FileHandler;
 import io.aleksander.utils.StringResource;
@@ -36,6 +37,8 @@ public class SaveAsAudioFileAction implements Action {
   @Override
   public void performAction() {
     JFileChooser fileChooser = new JFileChooser();
+    fileChooser.setAcceptAllFileFilterUsed(false);
+    fileChooser.addChoosableFileFilter(FileFilters.getFileFilterFor(outputFormat));
     if (fileChooser.showSaveDialog(parent) == JFileChooser.APPROVE_OPTION) {
       try {
         File selectedFile = fileChooser.getSelectedFile();
