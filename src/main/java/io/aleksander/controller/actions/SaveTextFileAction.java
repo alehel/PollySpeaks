@@ -8,7 +8,7 @@ import java.awt.Component;
 import java.io.File;
 import java.io.IOException;
 
-public class SaveTextFileAction {
+public class SaveTextFileAction implements Action {
   private final JTextArea textArea;
   private final Component view;
   private final DocumentMetadata documentMetadata;
@@ -20,10 +20,12 @@ public class SaveTextFileAction {
     this.documentMetadata = documentMetadata;
   }
 
-  public void peformAction() {
+  @Override
+  public void performAction() {
     // if the file hasn't been saved before, show the "Save As..." dialog.
     if (documentMetadata.getDocumentPath() == null) {
-      SaveAsTextFileAction saveAsTextFileAction = new SaveAsTextFileAction(view, textArea, documentMetadata);
+      SaveAsTextFileAction saveAsTextFileAction =
+          new SaveAsTextFileAction(view, textArea, documentMetadata);
       saveAsTextFileAction.performAction();
     } else {
       String text = textArea.getText();

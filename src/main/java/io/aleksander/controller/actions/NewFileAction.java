@@ -6,13 +6,11 @@ import io.aleksander.utils.StringResource;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import static io.aleksander.utils.StringResource.OVERWRITE_FILE;
 import static io.aleksander.utils.StringResource.WARNING;
 
-public class NewFileAction {
+public class NewFileAction implements Action {
   private final DocumentMetadata documentMetadata;
   private final Component view;
   private final JTextArea textArea;
@@ -23,6 +21,7 @@ public class NewFileAction {
     this.documentMetadata = documentMetadata;
   }
 
+  @Override
   public void performAction() {
     if (documentMetadata.isTextIsAltered()) {
       int userChoice =

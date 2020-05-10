@@ -8,15 +8,13 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
 import static io.aleksander.utils.StringResource.OVERWRITE_FILE;
 import static io.aleksander.utils.StringResource.WARNING;
 
-public class SaveAsTextFileAction {
+public class SaveAsTextFileAction implements Action {
 
   private final Component parent;
   private final JTextArea textArea;
@@ -29,6 +27,7 @@ public class SaveAsTextFileAction {
     this.documentMetadata = documentMetadata;
   }
 
+  @Override
   public void performAction() {
     JFileChooser fileChooser = new JFileChooser();
     if (fileChooser.showSaveDialog(parent) == JFileChooser.APPROVE_OPTION) {

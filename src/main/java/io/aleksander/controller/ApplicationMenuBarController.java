@@ -36,7 +36,7 @@ public class ApplicationMenuBarController {
 
     view.getSaveItem()
         .addActionListener(
-            e -> (new SaveTextFileAction(parent, textArea, documentMetadata)).peformAction());
+            e -> (new SaveTextFileAction(parent, textArea, documentMetadata)).performAction());
 
     view.getSaveAsItem()
         .addActionListener(

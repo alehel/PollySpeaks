@@ -9,7 +9,7 @@ import java.awt.Component;
 import static io.aleksander.utils.StringResource.FILE_NOT_SAVED;
 import static io.aleksander.utils.StringResource.WARNING;
 
-public class ExitAction {
+public class ExitAction implements Action {
 
   private final Component parent;
   private final DocumentMetadata documentMetadata;
@@ -19,6 +19,7 @@ public class ExitAction {
     this.documentMetadata = documentMetadata;
   }
 
+  @Override
   public void performAction() {
     if (documentMetadata.isTextIsAltered()) {
       int userChoice =

@@ -46,21 +46,22 @@ public class TextToSpeechEngine extends AbstractModel {
     this.language = language;
     firePropertyChange("language", oldValue, language);
 
-    List<Voice> availableVoicesBasedOnLanguage = allVoices.stream()
-        .filter(voice -> voice.getLanguageName().equals(language))
-        .collect(Collectors.toList());
+    List<Voice> availableVoicesBasedOnLanguage =
+        allVoices.stream()
+            .filter(voice -> voice.getLanguageName().equals(language))
+            .collect(Collectors.toList());
 
     setAvailableVoices(availableVoicesBasedOnLanguage);
+  }
+
+  public List<Voice> getAvailableVoices() {
+    return availableVoices;
   }
 
   public void setAvailableVoices(List<Voice> voices) {
     List<Voice> oldValue = this.availableVoices;
     this.availableVoices = voices;
     firePropertyChange("availableVoices", oldValue, voices);
-  }
-
-  public List<Voice> getAvailableVoices() {
-    return availableVoices;
   }
 
   public List<String> getAvailableLanguages() {
