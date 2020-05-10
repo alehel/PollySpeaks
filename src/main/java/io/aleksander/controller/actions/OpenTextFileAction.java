@@ -18,7 +18,7 @@ import static io.aleksander.utils.StringResource.ERROR;
 import static io.aleksander.utils.StringResource.ERROR_READING_FILE;
 import static io.aleksander.utils.StringResource.NO_SUCH_FILE;
 
-public class OpenTextFileAction implements ActionListener {
+public class OpenTextFileAction {
   private final Component parent;
   private final JTextArea textArea;
   private final DocumentMetadata documentMetadata;
@@ -29,8 +29,7 @@ public class OpenTextFileAction implements ActionListener {
     this.documentMetadata = documentMetadata;
   }
 
-  @Override
-  public void actionPerformed(ActionEvent e) {
+  public void performAction() {
     JFileChooser fileChooser = new JFileChooser();
     if (fileChooser.showOpenDialog(parent) == JFileChooser.APPROVE_OPTION) {
       try {

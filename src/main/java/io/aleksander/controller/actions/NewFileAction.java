@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
 import static io.aleksander.utils.StringResource.OVERWRITE_FILE;
 import static io.aleksander.utils.StringResource.WARNING;
 
-public class NewFileAction implements ActionListener {
+public class NewFileAction {
   private final DocumentMetadata documentMetadata;
   private final Component view;
   private final JTextArea textArea;
@@ -23,8 +23,7 @@ public class NewFileAction implements ActionListener {
     this.documentMetadata = documentMetadata;
   }
 
-  @Override
-  public void actionPerformed(ActionEvent e) {
+  public void performAction() {
     if (documentMetadata.isTextIsAltered()) {
       int userChoice =
           JOptionPane.showConfirmDialog(

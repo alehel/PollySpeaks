@@ -10,6 +10,7 @@ import io.aleksander.gui.ApplicationMenuBar;
 import io.aleksander.gui.MainFrame;
 import io.aleksander.model.DocumentMetadata;
 
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JTextArea;
 
 public class ApplicationMenuBarController {
@@ -20,20 +21,35 @@ public class ApplicationMenuBarController {
       MainFrame parent, JTextArea textArea, DocumentMetadata documentMetadata) {
     this.parent = parent;
     view = new ApplicationMenuBar();
-    attachActionListeners(textArea, documentMetadata);
+    setActions(textArea, documentMetadata);
     parent.setJMenuBar(view);
   }
 
-  private void attachActionListeners(JTextArea textArea, DocumentMetadata documentMetadata) {
-    view.getNewItem().addActionListener(new NewFileAction(parent, textArea, documentMetadata));
-    view.getOpenItem().addActionListener(new OpenTextFileAction(parent, textArea, documentMetadata));
+  private void setActions(JTextArea textArea, DocumentMetadata documentMetadata) {
+    view.getNewItem()
+        .addActionListener(
+            e -> (new NewFileAction(parent, textArea, documentMetadata)).performAction());
+
+    view.getOpenItem()
+        .addActionListener(
+            e -> (new OpenTextFileAction(parent, textArea, documentMetadata)).performAction());
+
     view.getSaveItem()
-        .addActionListener(new SaveTextFileAction(parent, textArea, documentMetadata));
+        .addActionListener(
+            e -> (new SaveTextFileAction(parent, textArea, documentMetadata)).peformAction());
+
     view.getSaveAsItem()
-        .addActionListener(new SaveAsTextFileAction(parent, textArea, documentMetadata));
-    view.getWordWrapItem().addActionListener(new WordWrapAction(textArea));
+        .addActionListener(
+            e -> (new SaveAsTextFileAction(parent, textArea, documentMetadata)).performAction());
+
+    view.getWordWrapItem()
+        .addActionListener(
+            e -> (new WordWrapAction((JCheckBoxMenuItem) e.getSource(), textArea)).performAction());
     view.getWordWrapItem().doClick();
-    view.getExitItem().addActionListener(new ExitAction(parent, documentMetadata));
+
+    view.getExitItem()
+        .addActionListener(e -> (new ExitAction(parent, documentMetadata)).performAction());
+
     parent.setJMenuBar(new ApplicationMenuBar());
   }
 }

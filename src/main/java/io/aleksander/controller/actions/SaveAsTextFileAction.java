@@ -16,7 +16,7 @@ import java.io.IOException;
 import static io.aleksander.utils.StringResource.OVERWRITE_FILE;
 import static io.aleksander.utils.StringResource.WARNING;
 
-public class SaveAsTextFileAction implements ActionListener {
+public class SaveAsTextFileAction {
 
   private final Component parent;
   private final JTextArea textArea;
@@ -29,8 +29,7 @@ public class SaveAsTextFileAction implements ActionListener {
     this.documentMetadata = documentMetadata;
   }
 
-  @Override
-  public void actionPerformed(ActionEvent e) {
+  public void performAction() {
     JFileChooser fileChooser = new JFileChooser();
     if (fileChooser.showSaveDialog(parent) == JFileChooser.APPROVE_OPTION) {
       try {

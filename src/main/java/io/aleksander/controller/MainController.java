@@ -124,11 +124,7 @@ public class MainController implements PropertyChangeListener {
         view.getSettingsPanel().getSpeakButton().setEnabled(!isPlaying);
       }
       case "documentName", "textIsAltered" -> setWindowTitle(documentMetadata);
-      case "availableVoices" -> {
-        if(evt.getNewValue() instanceof List<?>) {
-          setAvailableVoices((List<Voice>) evt.getNewValue());
-        }
-      }
+      case "availableVoices" -> setAvailableVoices((List<Voice>) evt.getNewValue());
       default -> System.out.println("Ignoring property: " + evt.getPropertyName());
     }
   }

@@ -5,13 +5,11 @@ import io.aleksander.utils.StringResource;
 
 import javax.swing.JOptionPane;
 import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import static io.aleksander.utils.StringResource.FILE_NOT_SAVED;
 import static io.aleksander.utils.StringResource.WARNING;
 
-public class ExitAction implements ActionListener {
+public class ExitAction {
 
   private final Component parent;
   private final DocumentMetadata documentMetadata;
@@ -21,8 +19,7 @@ public class ExitAction implements ActionListener {
     this.documentMetadata = documentMetadata;
   }
 
-  @Override
-  public void actionPerformed(ActionEvent e) {
+  public void performAction() {
     if (documentMetadata.isTextIsAltered()) {
       int userChoice =
           JOptionPane.showConfirmDialog(

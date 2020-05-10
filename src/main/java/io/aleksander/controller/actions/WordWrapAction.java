@@ -2,20 +2,18 @@ package io.aleksander.controller.actions;
 
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JTextArea;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class WordWrapAction implements ActionListener {
+public class WordWrapAction {
 
   private final JTextArea textArea;
+  private final JCheckBoxMenuItem item;
 
-  public WordWrapAction(JTextArea textArea) {
+  public WordWrapAction(JCheckBoxMenuItem item, JTextArea textArea) {
     this.textArea = textArea;
+    this.item = item;
   }
 
-  @Override
-  public void actionPerformed(ActionEvent e) {
-    JCheckBoxMenuItem item = (JCheckBoxMenuItem) e.getSource();
+  public void performAction() {
     boolean shouldWordWrap = item.getState();
     setWordWrap(shouldWordWrap);
   }

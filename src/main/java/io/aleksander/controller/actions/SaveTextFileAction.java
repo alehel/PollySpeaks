@@ -5,12 +5,10 @@ import io.aleksander.utils.FileHandler;
 
 import javax.swing.JTextArea;
 import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
-public class SaveTextFileAction implements ActionListener {
+public class SaveTextFileAction {
   private final JTextArea textArea;
   private final Component view;
   private final DocumentMetadata documentMetadata;
@@ -22,13 +20,11 @@ public class SaveTextFileAction implements ActionListener {
     this.documentMetadata = documentMetadata;
   }
 
-  @Override
-  public void actionPerformed(ActionEvent e) {
+  public void peformAction() {
     // if the file hasn't been saved before, show the "Save As..." dialog.
     if (documentMetadata.getDocumentPath() == null) {
-      SaveAsTextFileAction saveAsTextFileAction =
-          new SaveAsTextFileAction(view, textArea, documentMetadata);
-      saveAsTextFileAction.actionPerformed(e);
+      SaveAsTextFileAction saveAsTextFileAction = new SaveAsTextFileAction(view, textArea, documentMetadata);
+      saveAsTextFileAction.performAction();
     } else {
       String text = textArea.getText();
       File file = new File(documentMetadata.getDocumentPath());
