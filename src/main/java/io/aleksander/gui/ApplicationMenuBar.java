@@ -12,6 +12,7 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 
 import static io.aleksander.utils.StringResource.EXIT;
+import static io.aleksander.utils.StringResource.EXPORT_TO_AUDIO_FILE;
 import static io.aleksander.utils.StringResource.FILE;
 import static io.aleksander.utils.StringResource.NEW;
 import static io.aleksander.utils.StringResource.OPEN;
@@ -25,9 +26,9 @@ public class ApplicationMenuBar extends JMenuBar {
   private JMenuItem openItem;
   private JMenuItem saveItem;
   private JMenuItem saveAsItem;
+  private JMenuItem exportToAudioFile;
   private JMenuItem exitItem;
   private JCheckBoxMenuItem wordWrapItem;
-
   public ApplicationMenuBar() {
     // File menu
     JMenu fileMenu = new JMenu(StringResource.getString(FILE));
@@ -54,6 +55,9 @@ public class ApplicationMenuBar extends JMenuBar {
             KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK));
     fileMenu.add(saveAsItem);
 
+    exportToAudioFile = new JMenuItem(StringResource.getString(EXPORT_TO_AUDIO_FILE));
+    fileMenu.add(exportToAudioFile);
+
     fileMenu.add(new JSeparator());
 
     exitItem = new JMenuItem(StringResource.getString(EXIT));
@@ -71,6 +75,14 @@ public class ApplicationMenuBar extends JMenuBar {
 
     add(fileMenu);
     add(viewMenu);
+  }
+
+  public JMenuItem getExportToAudioFile() {
+    return exportToAudioFile;
+  }
+
+  public void setExportToAudioFile(JMenuItem exportToAudioFile) {
+    this.exportToAudioFile = exportToAudioFile;
   }
 
   public JMenuItem getNewItem() {

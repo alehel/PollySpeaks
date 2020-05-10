@@ -10,6 +10,7 @@ import com.amazonaws.services.polly.model.SynthesizeSpeechResult;
 import com.amazonaws.services.polly.model.Voice;
 
 import java.io.InputStream;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -61,7 +62,10 @@ public class TextToSpeechEngine extends AbstractModel {
   public void setAvailableVoices(List<Voice> voices) {
     List<Voice> oldValue = this.availableVoices;
     this.availableVoices = voices;
-    firePropertyChange("availableVoices", oldValue, voices);
+    firePropertyChange(
+        "availableVoices",
+        Collections.unmodifiableList(oldValue),
+        Collections.unmodifiableList(voices));
   }
 
   public List<String> getAvailableLanguages() {
@@ -75,11 +79,15 @@ public class TextToSpeechEngine extends AbstractModel {
   }
 
   public InputStream convertTextToSpeech(String text) {
+    return convertTextToSpeech(text, OutputFormat.Mp3);
+  }
+
+  public InputStream convertTextToSpeech(String text, OutputFormat outputFormat) {
     SynthesizeSpeechRequest synthReq =
         new SynthesizeSpeechRequest()
             .withText(text)
             .withVoiceId(voiceId)
-            .withOutputFormat(OutputFormat.Mp3);
+            .withOutputFormat(outputFormat);
     SynthesizeSpeechResult synthRes = polly.synthesizeSpeech(synthReq);
 
     return synthRes.getAudioStream();

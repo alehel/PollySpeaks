@@ -83,7 +83,7 @@ public class MainController implements PropertyChangeListener {
   }
 
   private void setUpMenuBar() {
-    new ApplicationMenuBarController(view, view.getTextArea(), documentMetadata);
+    new ApplicationMenuBarController(view, view.getTextArea(), documentMetadata, textToSpeechEngine);
   }
 
   private void setWindowCloseBehaviour() {

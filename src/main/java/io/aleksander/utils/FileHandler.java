@@ -2,6 +2,7 @@ package io.aleksander.utils;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 
 public class FileHandler {
@@ -15,5 +16,10 @@ public class FileHandler {
     File file = new File(uri);
     byte[] textAsBytes = text.getBytes();
     Files.write(file.toPath(), textAsBytes);
+  }
+
+  public static void writeAudioToFile(InputStream inputStream, String uri) throws IOException {
+    File file = new File(uri);
+    Files.copy(inputStream, file.toPath());
   }
 }

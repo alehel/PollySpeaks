@@ -26,6 +26,9 @@ public class StringResource {
   public static final String ERROR_READING_FILE = "errorReadingFile";
   public static final String FILE_NOT_SAVED = "fileNotSaved";
   public static final String AWS_SDK_ERROR = "awsSdkError";
+  public static final String EXPORT_TO_AUDIO_FILE = "exportToAudioFile";
+  public static final String OUTPUT_FORMAT = "outputFormat";
+  public static final String EXPORT = "export";
 
   public static String getString(String propertyKey) {
     Objects.requireNonNull(propertyKey);
