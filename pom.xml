@@ -16,7 +16,7 @@
         <maven.compiler.source>14</maven.compiler.source>
         <maven.compiler.target>14</maven.compiler.target>
         <version.junit>5.6.2</version.junit>
-        <version.pollysdk>1.11.777</version.pollysdk>
+        <version.pollysdk>1.11.779</version.pollysdk>
         <version.soundlibs>1.0.1.4</version.soundlibs>
     </properties>
 
