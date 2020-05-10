@@ -17,6 +17,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Objects;
 
 import static io.aleksander.utils.StringResource.APPLICATION_TITLE;
 import static io.aleksander.utils.StringResource.SOUND_PLAYBACK_ERROR;
@@ -124,7 +125,10 @@ public class MainController implements PropertyChangeListener {
         view.getSettingsPanel().getSpeakButton().setEnabled(!isPlaying);
       }
       case "documentName", "textIsAltered" -> setWindowTitle(documentMetadata);
-      case "availableVoices" -> setAvailableVoices((List<Voice>) evt.getNewValue());
+      case "availableVoices" -> {
+        @SuppressWarnings("unchecked") List<Voice> availableVoices = (List<Voice>) evt.getNewValue();
+        setAvailableVoices(availableVoices);
+      }
       default -> System.out.println("Ignoring property: " + evt.getPropertyName());
     }
   }
@@ -140,6 +144,7 @@ public class MainController implements PropertyChangeListener {
     voiceSelector.addActionListener(
         action -> {
           VoiceSelectModelElement selectedVoice = (VoiceSelectModelElement) voiceSelector.getSelectedItem();
+          Objects.requireNonNull(selectedVoice, "VoiceSelectModelElement must not be null.");
           textToSpeechEngine.setVoiceId(selectedVoice.getId());
         });
     voiceSelector.setSelectedIndex(0);
