@@ -15,9 +15,10 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>14</maven.compiler.source>
         <maven.compiler.target>14</maven.compiler.target>
-        <version.junit>5.6.2</version.junit>
-        <version.pollysdk>1.11.779</version.pollysdk>
-        <version.soundlibs>1.0.1.4</version.soundlibs>
+        <junit.version>5.6.2</junit.version>
+        <pollysdk.version>1.11.784</pollysdk.version>
+        <soundlibs.version>1.0.1.4</soundlibs.version>
+        <log4j.version>2.13.3</log4j.version>
     </properties>
 
     <dependencies>
@@ -25,21 +26,21 @@
         <dependency>
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-java-sdk-polly</artifactId>
-            <version>${version.pollysdk}</version>
+            <version>${pollysdk.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/com.googlecode.soundlibs/jlayer -->
         <dependency>
             <groupId>com.googlecode.soundlibs</groupId>
             <artifactId>jlayer</artifactId>
-            <version>${version.soundlibs}</version>
+            <version>${soundlibs.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>${version.junit}</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
 
@@ -47,8 +48,22 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>${version.junit}</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-api -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j.version}</version>
         </dependency>
     </dependencies>
 
