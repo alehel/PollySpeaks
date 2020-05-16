@@ -48,7 +48,7 @@ public class ApplicationMenuBarController {
 
     view.getExportToAudioFile()
         .addActionListener(
-            e -> (new ExportToAudioAction(textToSpeechEngine, textArea.getText())).performAction());
+            e -> (new ExportToAudioAction(parent, textToSpeechEngine, textArea.getText())).performAction());
 
     view.getWordWrapItem()
         .addActionListener(

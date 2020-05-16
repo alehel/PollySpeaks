@@ -47,6 +47,7 @@ public class MainController implements PropertyChangeListener {
     setUpMenuBar();
     setWindowCloseBehaviour();
 
+    view.setLocationByPlatform(true);
     view.setVisible(true);
   }
 

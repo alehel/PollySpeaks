@@ -6,6 +6,7 @@ import io.aleksander.gui.ExportAudioDialog;
 import io.aleksander.model.TextToSpeechEngine;
 
 import javax.swing.DefaultComboBoxModel;
+import java.awt.Component;
 import java.awt.event.WindowEvent;
 
 public class ExportAudioController {
@@ -13,7 +14,7 @@ public class ExportAudioController {
   private final String text;
   private final ExportAudioDialog view;
 
-  public ExportAudioController(TextToSpeechEngine textToSpeechEngine, String text) {
+  public ExportAudioController(Component parent, TextToSpeechEngine textToSpeechEngine, String text) {
     this.textToSpeechEngine = textToSpeechEngine;
     this.text = text;
     view = new ExportAudioDialog();
@@ -21,6 +22,7 @@ public class ExportAudioController {
     setUpOutpuFormatSelector();
     setUpExportButton();
 
+    view.setLocationRelativeTo(parent);
     view.setVisible(true);
   }
 
