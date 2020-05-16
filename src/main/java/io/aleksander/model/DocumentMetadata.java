@@ -6,10 +6,20 @@ public class DocumentMetadata extends AbstractModel {
   private boolean textIsAltered;
   private String documentPath;
   private String documentName;
+  private String documentText;
 
   public DocumentMetadata() {
     textIsAltered = false;
     documentName = null;
+    documentText = "";
+  }
+
+  public String getDocumentText() {
+    return documentText;
+  }
+
+  public void setDocumentText(String documentText) {
+    this.documentText = documentText;
   }
 
   public String getDocumentName() {

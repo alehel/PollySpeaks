@@ -3,6 +3,7 @@ package io.aleksander.controller;
 import com.amazonaws.services.polly.model.Voice;
 import io.aleksander.controller.actions.ExitAction;
 import io.aleksander.controller.actions.SpeakTextAction;
+import io.aleksander.controller.listeners.JTextFieldChangeListener;
 import io.aleksander.controller.listeners.TextAreaChangeListener;
 import io.aleksander.gui.MainFrame;
 import io.aleksander.gui.viewmodel.VoiceSelectModelElement;
@@ -10,6 +11,8 @@ import io.aleksander.model.AudioStreamPlayer;
 import io.aleksander.model.DocumentMetadata;
 import io.aleksander.model.TextToSpeechEngine;
 import io.aleksander.utils.StringResource;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
@@ -24,6 +27,8 @@ import java.util.Objects;
 import static io.aleksander.utils.StringResource.APPLICATION_TITLE;
 
 public class MainController implements PropertyChangeListener {
+  private static final Logger logger = LogManager.getLogger(MainController.class);
+
   private final TextToSpeechEngine textToSpeechEngine;
   DocumentMetadata documentMetadata;
   AudioStreamPlayer audioStreamPlayer;
@@ -47,6 +52,7 @@ public class MainController implements PropertyChangeListener {
 
   private void setUpDocumentHandler() {
     documentMetadata = new DocumentMetadata();
+    view.getTextArea().getDocument().addDocumentListener(new JTextFieldChangeListener(documentMetadata));
     documentMetadata.addPropertyChangeListener(this);
     this.view
         .getTextArea()
@@ -119,7 +125,7 @@ public class MainController implements PropertyChangeListener {
         @SuppressWarnings("unchecked") List<Voice> availableVoices = (List<Voice>) evt.getNewValue();
         setAvailableVoices(availableVoices);
       }
-      default -> System.out.println("Ignoring property: " + evt.getPropertyName());
+      default -> logger.info("Ignoring property change: " + evt.getPropertyName());
     }
   }
 
