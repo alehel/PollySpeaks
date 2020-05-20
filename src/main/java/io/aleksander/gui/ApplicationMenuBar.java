@@ -2,6 +2,7 @@ package io.aleksander.gui;
 
 import io.aleksander.utils.StringResource;
 
+import javax.swing.ImageIcon;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -10,6 +11,7 @@ import javax.swing.JSeparator;
 import javax.swing.KeyStroke;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.net.URL;
 
 import static io.aleksander.utils.StringResource.EXIT;
 import static io.aleksander.utils.StringResource.EXPORT_TO_AUDIO_FILE;
@@ -29,6 +31,7 @@ public class ApplicationMenuBar extends JMenuBar {
   private JMenuItem exportToAudioFile;
   private JMenuItem exitItem;
   private JCheckBoxMenuItem wordWrapItem;
+
   public ApplicationMenuBar() {
     // File menu
     JMenu fileMenu = new JMenu(StringResource.getString(FILE));
@@ -37,15 +40,21 @@ public class ApplicationMenuBar extends JMenuBar {
     newItem = new JMenuItem(StringResource.getString(NEW));
     newItem.setMnemonic(KeyEvent.VK_N);
     newItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_DOWN_MASK));
+    ImageIcon newIcon = getImageIcon("general/New16.gif");
+    newItem.setIcon(newIcon);
     fileMenu.add(newItem);
 
     openItem = new JMenuItem(StringResource.getString(OPEN));
     openItem.setMnemonic(KeyEvent.VK_O);
     openItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK));
+    ImageIcon openIcon = getImageIcon("general/Open16.gif");
+    openItem.setIcon(openIcon);
     fileMenu.add(openItem);
 
     saveItem = new JMenuItem(StringResource.getString(SAVE));
     saveItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK));
+    ImageIcon saveIcon = getImageIcon("general/Save16.gif");
+    saveItem.setIcon(saveIcon);
     fileMenu.add(saveItem);
 
     saveAsItem = new JMenuItem(StringResource.getString(SAVE_AS));
@@ -53,9 +62,13 @@ public class ApplicationMenuBar extends JMenuBar {
     saveAsItem.setAccelerator(
         KeyStroke.getKeyStroke(
             KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK));
+    ImageIcon saveAsIcon = getImageIcon("general/SaveAs16.gif");
+    saveAsItem.setIcon(saveAsIcon);
     fileMenu.add(saveAsItem);
 
     exportToAudioFile = new JMenuItem(StringResource.getString(EXPORT_TO_AUDIO_FILE));
+    ImageIcon exportIcon = getImageIcon("general/Export16.gif");
+    exportToAudioFile.setIcon(exportIcon);
     fileMenu.add(exportToAudioFile);
 
     fileMenu.add(new JSeparator());
@@ -75,6 +88,11 @@ public class ApplicationMenuBar extends JMenuBar {
 
     add(fileMenu);
     add(viewMenu);
+  }
+
+  private ImageIcon getImageIcon(String url) {
+    URL fullUrl = getClass().getResource("/toolbarButtonGraphics/" + url);
+    return new ImageIcon(fullUrl);
   }
 
   public JMenuItem getExportToAudioFile() {

@@ -10,3 +10,6 @@ Current features
 
 ## AWS Credentials
 To use the application you must have your own AWS credentials. For more details see the [AWS Developer Guide](https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/credentials.html).
+
+## License
+The code available under the MIT license. The icons used in the application are from the [Java look and feel Graphics Repository](https://www.oracle.com/technetwork/java/repository-140393.html), which is made available by Oracle under the [license for software graphics artwork](https://www.oracle.com/a/tech/docs/software-icon-license-943-2012.html).
