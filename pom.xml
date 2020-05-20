@@ -17,7 +17,7 @@
         <maven.compiler.target>14</maven.compiler.target>
         <jlfgr.version>1_0</jlfgr.version>
         <junit.version>5.6.2</junit.version>
-        <pollysdk.version>1.11.784</pollysdk.version>
+        <pollysdk.version>1.11.786</pollysdk.version>
         <soundlibs.version>1.0.1.4</soundlibs.version>
         <log4j.version>2.13.3</log4j.version>
     </properties>
