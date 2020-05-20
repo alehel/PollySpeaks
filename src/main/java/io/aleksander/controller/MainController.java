@@ -4,7 +4,6 @@ import com.amazonaws.services.polly.model.Voice;
 import io.aleksander.controller.actions.ExitAction;
 import io.aleksander.controller.actions.SpeakTextAction;
 import io.aleksander.controller.listeners.JTextFieldChangeListener;
-import io.aleksander.controller.listeners.TextAreaChangeListener;
 import io.aleksander.gui.MainFrame;
 import io.aleksander.gui.viewmodel.VoiceSelectModelElement;
 import io.aleksander.model.AudioStreamPlayer;
@@ -55,10 +54,6 @@ public class MainController implements PropertyChangeListener {
     documentMetadata = new DocumentMetadata();
     view.getTextArea().getDocument().addDocumentListener(new JTextFieldChangeListener(documentMetadata));
     documentMetadata.addPropertyChangeListener(this);
-    this.view
-        .getTextArea()
-        .getDocument()
-        .addDocumentListener(new TextAreaChangeListener(documentMetadata));
     setWindowTitle(documentMetadata);
   }
 
@@ -126,7 +121,7 @@ public class MainController implements PropertyChangeListener {
         @SuppressWarnings("unchecked") List<Voice> availableVoices = (List<Voice>) evt.getNewValue();
         setAvailableVoices(availableVoices);
       }
-      default -> logger.info("Ignoring property change: " + evt.getPropertyName());
+      default -> logger.debug("Ignoring property change: " + evt.getPropertyName());
     }
   }
 
