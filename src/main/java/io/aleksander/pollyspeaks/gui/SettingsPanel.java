@@ -1,8 +1,18 @@
 package io.aleksander.pollyspeaks.gui;
 
+import static io.aleksander.pollyspeaks.utils.StringResource.LANGUAGE;
+import static io.aleksander.pollyspeaks.utils.StringResource.SPEAK;
+import static io.aleksander.pollyspeaks.utils.StringResource.SSML;
+import static io.aleksander.pollyspeaks.utils.StringResource.USE_SSML;
+import static io.aleksander.pollyspeaks.utils.StringResource.VOICE;
+import static io.aleksander.pollyspeaks.utils.StringResource.getString;
+
 import io.aleksander.pollyspeaks.gui.viewmodel.VoiceSelectModelElement;
 import io.aleksander.pollyspeaks.utils.StringResource;
-
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -10,17 +20,6 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-
-import static io.aleksander.pollyspeaks.utils.StringResource.LANGUAGE;
-import static io.aleksander.pollyspeaks.utils.StringResource.SPEAK;
-import static io.aleksander.pollyspeaks.utils.StringResource.SSML;
-import static io.aleksander.pollyspeaks.utils.StringResource.USE_SSML;
-import static io.aleksander.pollyspeaks.utils.StringResource.VOICE;
-import static io.aleksander.pollyspeaks.utils.StringResource.getString;
 
 public class SettingsPanel extends JPanel {
   private final Dimension comboBoxPreferredSize = new Dimension(150, 20);
@@ -32,6 +31,7 @@ public class SettingsPanel extends JPanel {
   private JPanel ssmlSettingsGroup;
   private JCheckBox ssmlCheckbox;
   private JButton speakButton;
+  private JWebLink ssmlHyperlink;
 
   public SettingsPanel() {
     setLayout(new GridBagLayout());
@@ -52,6 +52,9 @@ public class SettingsPanel extends JPanel {
 
     ssmlSettingsGroup = createSettingsGroup(getString(SSML));
     ssmlCheckbox = new JCheckBox(StringResource.getString(USE_SSML));
+    ssmlHyperlink =
+        new JWebLink(
+            "SSML Syntax Guide", "https://docs.aws.amazon.com/polly/latest/dg/supportedtags.html");
 
     speakButton = new JButton(StringResource.getString(SPEAK));
   }
@@ -149,6 +152,12 @@ public class SettingsPanel extends JPanel {
     constraints.anchor = GridBagConstraints.LINE_END;
     constraints.insets = new Insets(0, 0, 0, 5);
     ssmlSettingsGroup.add(ssmlCheckbox, constraints);
+
+    constraints.gridy++;
+    constraints.gridx = 0;
+    constraints.anchor = GridBagConstraints.LINE_END;
+    constraints.insets = new Insets(5, 0, 0, 0);
+    ssmlSettingsGroup.add(ssmlHyperlink, constraints);
   }
 
   public JCheckBox getSsmlCheckbox() {
