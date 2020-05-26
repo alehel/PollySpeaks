@@ -40,11 +40,11 @@ public class ApplicationMenuBarController {
 
     view.getSaveItem()
         .addActionListener(
-            e -> (new SaveTextFileAction(parent, textArea, documentMetadata)).performAction());
+            e -> (new SaveTextFileAction(parent, documentMetadata)).performAction());
 
     view.getSaveAsItem()
         .addActionListener(
-            e -> (new SaveAsTextFileAction(parent, textArea, documentMetadata)).performAction());
+            e -> (new SaveAsTextFileAction(parent, documentMetadata)).performAction());
 
     view.getExportToAudioFile()
         .addActionListener(

@@ -26,15 +26,25 @@ public class ExitAction implements Action {
   @Override
   public void performAction() {
     if (documentMetadata.isTextIsAltered()) {
+      Object[] options = {"Save", "Don't Save", "Cancel"};
+
       int userChoice =
-          JOptionPane.showConfirmDialog(
+          JOptionPane.showOptionDialog(
               parent,
               StringResource.getString(FILE_NOT_SAVED),
               StringResource.getString(WARNING),
-              JOptionPane.YES_NO_OPTION,
-              JOptionPane.WARNING_MESSAGE);
+              JOptionPane.YES_NO_CANCEL_OPTION,
+              JOptionPane.QUESTION_MESSAGE,
+              null,
+              options,
+              options[2]);
 
       if (userChoice == JOptionPane.OK_OPTION) {
+        new SaveTextFileAction(parent, documentMetadata).performAction();
+        if(!documentMetadata.isTextIsAltered()) {
+          System.exit(0);
+        }
+      } else if (userChoice == JOptionPane.NO_OPTION) {
         System.exit(0);
       }
     } else {
