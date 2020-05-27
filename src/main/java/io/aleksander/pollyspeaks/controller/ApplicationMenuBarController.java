@@ -1,7 +1,6 @@
 package io.aleksander.pollyspeaks.controller;
 
 import io.aleksander.pollyspeaks.controller.actions.ExitAction;
-import io.aleksander.pollyspeaks.controller.actions.ExportToAudioAction;
 import io.aleksander.pollyspeaks.controller.actions.FileActions;
 import io.aleksander.pollyspeaks.controller.actions.WordWrapAction;
 import io.aleksander.pollyspeaks.gui.ApplicationMenuBar;
@@ -41,7 +40,7 @@ public class ApplicationMenuBarController {
 
     view.getExportToAudioFile()
         .addActionListener(
-            e -> (new ExportToAudioAction(frame, textToSpeechEngine, textArea.getText())).performAction());
+            e -> new ExportAudioController(frame, textToSpeechEngine, documentMetadata.getDocumentText()));
 
     view.getWordWrapItem()
         .addActionListener(
