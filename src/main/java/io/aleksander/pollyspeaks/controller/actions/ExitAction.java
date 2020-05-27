@@ -7,30 +7,34 @@ import java.util.Objects;
 import javax.swing.JOptionPane;
 import java.awt.Component;
 
+import static io.aleksander.pollyspeaks.utils.StringResource.CANCEL;
+import static io.aleksander.pollyspeaks.utils.StringResource.DONT_SAVE;
 import static io.aleksander.pollyspeaks.utils.StringResource.FILE_NOT_SAVED;
+import static io.aleksander.pollyspeaks.utils.StringResource.SAVE;
 import static io.aleksander.pollyspeaks.utils.StringResource.WARNING;
+import static io.aleksander.pollyspeaks.utils.StringResource.getString;
 
 public class ExitAction implements Action {
 
-  private final Component parent;
+  private final Component frame;
   private final DocumentMetadata documentMetadata;
 
-  public ExitAction(Component parent, DocumentMetadata documentMetadata) {
-    Objects.requireNonNull(parent);
+  public ExitAction(Component frame, DocumentMetadata documentMetadata) {
+    Objects.requireNonNull(frame);
     Objects.requireNonNull(documentMetadata);
 
-    this.parent = parent;
+    this.frame = frame;
     this.documentMetadata = documentMetadata;
   }
 
   @Override
   public void performAction() {
     if (documentMetadata.isTextIsAltered()) {
-      Object[] options = {"Save", "Don't Save", "Cancel"};
+      Object[] options = {getString(SAVE), getString(DONT_SAVE), getString(CANCEL)};
 
       int userChoice =
           JOptionPane.showOptionDialog(
-              parent,
+              frame,
               StringResource.getString(FILE_NOT_SAVED),
               StringResource.getString(WARNING),
               JOptionPane.YES_NO_CANCEL_OPTION,
@@ -40,7 +44,7 @@ public class ExitAction implements Action {
               options[2]);
 
       if (userChoice == JOptionPane.OK_OPTION) {
-        new SaveTextFileAction(parent, documentMetadata).performAction();
+        FileActions.saveTextFile(frame, documentMetadata);
         if(!documentMetadata.isTextIsAltered()) {
           System.exit(0);
         }

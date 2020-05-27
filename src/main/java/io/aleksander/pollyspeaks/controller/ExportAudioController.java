@@ -1,7 +1,7 @@
 package io.aleksander.pollyspeaks.controller;
 
 import com.amazonaws.services.polly.model.OutputFormat;
-import io.aleksander.pollyspeaks.controller.actions.SaveAsAudioFileAction;
+import io.aleksander.pollyspeaks.controller.actions.FileActions;
 import io.aleksander.pollyspeaks.gui.ExportAudioDialog;
 import io.aleksander.pollyspeaks.model.TextToSpeechEngine;
 
@@ -36,7 +36,7 @@ public class ExportAudioController {
   private void setUpExportButton() {
     view.getExportButton().addActionListener(e -> {
       OutputFormat outputFormat = (OutputFormat) view.getOutputFormatSelector().getSelectedItem();
-      new SaveAsAudioFileAction(view, text, textToSpeechEngine, outputFormat).performAction();
+      FileActions.saveAsAudioFile(view, text, textToSpeechEngine, outputFormat);
       view.dispatchEvent(new WindowEvent(view, WindowEvent.WINDOW_CLOSING));
     });
   }

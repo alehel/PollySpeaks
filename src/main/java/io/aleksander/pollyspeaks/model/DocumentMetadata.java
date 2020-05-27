@@ -1,5 +1,8 @@
 package io.aleksander.pollyspeaks.model;
 
+import static io.aleksander.pollyspeaks.utils.StringResource.UNTITLED;
+import static io.aleksander.pollyspeaks.utils.StringResource.getString;
+
 import java.util.Objects;
 
 public class DocumentMetadata extends AbstractModel {
@@ -11,8 +14,16 @@ public class DocumentMetadata extends AbstractModel {
 
   public DocumentMetadata() {
     textIsAltered = false;
+    documentPath = null;
     documentName = null;
     documentText = "";
+  }
+
+  public void clear() {
+    setTextIsAltered(false);
+    setDocumentName(null);
+    setDocumentPath(null);
+    setDocumentText("");
   }
 
   public boolean isSsmlMarkup() {
@@ -36,7 +47,7 @@ public class DocumentMetadata extends AbstractModel {
   }
 
   public String getDocumentName() {
-    return Objects.requireNonNullElse(documentName, "Untitled");
+    return Objects.requireNonNullElse(documentName, getString(UNTITLED));
   }
 
   public void setDocumentName(String documentName) {

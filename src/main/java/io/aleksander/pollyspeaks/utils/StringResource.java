@@ -32,6 +32,10 @@ public class StringResource {
   public static final String SSML = "ssml";
   public static final String USE_SSML = "useSSML";
   public static final String EXPORT = "export";
+  public static final String DONT_SAVE = "dontSave";
+  public static final String CANCEL = "cancel";
+  public static final String CLOSE_UNSAVED_FILE = "replaceUnsavedFile";
+  public static final String UNTITLED = "untitled";
 
   public static String getString(String propertyKey) {
     Objects.requireNonNull(propertyKey);

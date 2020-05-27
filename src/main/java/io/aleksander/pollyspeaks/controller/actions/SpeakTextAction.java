@@ -17,20 +17,20 @@ public class SpeakTextAction implements Action {
 
   private final String text;
   private final TextToSpeechEngine textToSpeechEngine;
-  private final Component parent;
+  private final Component frame;
   private final AudioStreamPlayer audioStreamPlayer;
 
   public SpeakTextAction(
-      Component parent,
+      Component frame,
       TextToSpeechEngine textToSpeechEngine,
       AudioStreamPlayer audioStreamPlayer,
       String text) {
-    Objects.requireNonNull(parent);
+    Objects.requireNonNull(frame);
     Objects.requireNonNull(text);
     Objects.requireNonNull(textToSpeechEngine);
     Objects.requireNonNull(audioStreamPlayer);
 
-    this.parent = parent;
+    this.frame = frame;
     this.text = text.trim();
     this.textToSpeechEngine = textToSpeechEngine;
     this.audioStreamPlayer = audioStreamPlayer;
@@ -46,13 +46,13 @@ public class SpeakTextAction implements Action {
                   audioStreamPlayer.playStream(synthesizedText);
                 } catch (JavaLayerException exception) {
                   JOptionPane.showMessageDialog(
-                      parent,
+                      frame,
                       StringResource.getString(SOUND_PLAYBACK_ERROR),
                       StringResource.getString(StringResource.ERROR),
                       JOptionPane.ERROR_MESSAGE);
                 } catch (InvalidSsmlException exception) {
                   JOptionPane.showMessageDialog(
-                      parent,
+                      frame,
                       StringResource.getString(SSML_PARSE_ERROR),
                       StringResource.getString(StringResource.ERROR),
                       JOptionPane.ERROR_MESSAGE);
