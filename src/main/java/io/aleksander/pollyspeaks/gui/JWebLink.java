@@ -1,6 +1,5 @@
 package io.aleksander.pollyspeaks.gui;
 
-import io.aleksander.pollyspeaks.controller.actions.SaveAsAudioFileAction;
 import java.awt.Color;
 import java.awt.Cursor;
 
@@ -15,7 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class JWebLink extends JLabel {
-  private static final Logger logger = LogManager.getLogger(SaveAsAudioFileAction.class);
+  private static final Logger logger = LogManager.getLogger(JWebLink.class);
 
   private final String text;
   private final String link;
