@@ -3,11 +3,8 @@ package io.aleksander.pollyspeaks.controller;
 import static io.aleksander.pollyspeaks.utils.StringResource.APPLICATION_TITLE;
 
 import com.amazonaws.services.polly.model.Voice;
-import io.aleksander.pollyspeaks.controller.actions.ExitAction;
-import io.aleksander.pollyspeaks.controller.actions.SelectLanguageAction;
-import io.aleksander.pollyspeaks.controller.actions.SelectVoiceAction;
+import io.aleksander.pollyspeaks.controller.actions.WindowActions;
 import io.aleksander.pollyspeaks.controller.actions.SpeakTextAction;
-import io.aleksander.pollyspeaks.controller.actions.UseSSMLAction;
 import io.aleksander.pollyspeaks.controller.listeners.JTextFieldChangeListener;
 import io.aleksander.pollyspeaks.gui.MainFrame;
 import io.aleksander.pollyspeaks.gui.viewmodel.VoiceSelectModelElement;
@@ -20,6 +17,7 @@ import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
+import java.util.Objects;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -73,7 +71,8 @@ public class MainController implements PropertyChangeListener {
     languageSelector.addActionListener(
         action -> {
           String language = (String) languageSelector.getSelectedItem();
-          new SelectLanguageAction(textToSpeechEngine, language).performAction();
+          Objects.requireNonNull(language);
+          textToSpeechEngine.setLanguage(language);
         });
     languageSelector.setSelectedIndex(0);
   }
@@ -82,7 +81,8 @@ public class MainController implements PropertyChangeListener {
     boolean useSsml = documentMetadata.isSsmlMarkup();
     view.getSettingsPanel().getSsmlCheckbox().addActionListener(e -> {
       JCheckBox checkBox = (JCheckBox) e.getSource();
-      new UseSSMLAction(documentMetadata, textToSpeechEngine, checkBox.isSelected()).performAction();
+      documentMetadata.setSsmlMarkup(checkBox.isSelected());
+      textToSpeechEngine.setUseSSML(checkBox.isSelected());
     });
     view.getSettingsPanel().getSsmlCheckbox().setSelected(useSsml);
     textToSpeechEngine.setUseSSML(useSsml);
@@ -103,7 +103,7 @@ public class MainController implements PropertyChangeListener {
     view.addWindowListener(new WindowAdapter() {
       @Override
       public void windowClosing(WindowEvent windowEvent) {
-        new ExitAction(view, documentMetadata).performAction();
+        WindowActions.exitApplication(view, documentMetadata);
       }
     });
 
@@ -146,9 +146,8 @@ public class MainController implements PropertyChangeListener {
     voiceSelector.addActionListener(
         action -> {
           VoiceSelectModelElement selectedVoice = (VoiceSelectModelElement) voiceSelector.getSelectedItem();
-          if(selectedVoice != null) {
-            new SelectVoiceAction(textToSpeechEngine, selectedVoice.getId()).performAction();
-          }
+          Objects.requireNonNull(selectedVoice);
+          textToSpeechEngine.setVoiceId(selectedVoice.getId());
         });
     voiceSelector.setSelectedIndex(0);
   }

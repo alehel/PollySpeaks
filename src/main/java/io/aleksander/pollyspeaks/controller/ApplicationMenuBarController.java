@@ -1,8 +1,7 @@
 package io.aleksander.pollyspeaks.controller;
 
-import io.aleksander.pollyspeaks.controller.actions.ExitAction;
+import io.aleksander.pollyspeaks.controller.actions.WindowActions;
 import io.aleksander.pollyspeaks.controller.actions.FileActions;
-import io.aleksander.pollyspeaks.controller.actions.WordWrapAction;
 import io.aleksander.pollyspeaks.gui.ApplicationMenuBar;
 import io.aleksander.pollyspeaks.gui.MainFrame;
 import io.aleksander.pollyspeaks.model.DocumentMetadata;
@@ -43,12 +42,15 @@ public class ApplicationMenuBarController {
             e -> new ExportAudioController(frame, textToSpeechEngine, documentMetadata.getDocumentText()));
 
     view.getWordWrapItem()
-        .addActionListener(
-            e -> (new WordWrapAction((JCheckBoxMenuItem) e.getSource(), textArea)).performAction());
-    view.getWordWrapItem().doClick();
+        .addActionListener(e -> {
+          JCheckBoxMenuItem checkBox = (JCheckBoxMenuItem) e.getSource();
+          textArea.setLineWrap(checkBox.isSelected());
+          textArea.setWrapStyleWord(checkBox.isSelected());
+        });
+    view.getWordWrapItem().doClick(); // make checked state the default.
 
     view.getExitItem()
-        .addActionListener(e -> (new ExitAction(frame, documentMetadata)).performAction());
+        .addActionListener(e -> WindowActions.exitApplication(view, documentMetadata));
 
     frame.setJMenuBar(new ApplicationMenuBar());
   }

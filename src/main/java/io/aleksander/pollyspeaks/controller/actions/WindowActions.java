@@ -14,21 +14,12 @@ import static io.aleksander.pollyspeaks.utils.StringResource.SAVE;
 import static io.aleksander.pollyspeaks.utils.StringResource.WARNING;
 import static io.aleksander.pollyspeaks.utils.StringResource.getString;
 
-public class ExitAction implements Action {
+public class WindowActions {
 
-  private final Component frame;
-  private final DocumentMetadata documentMetadata;
-
-  public ExitAction(Component frame, DocumentMetadata documentMetadata) {
+  public static void exitApplication(Component frame, DocumentMetadata documentMetadata) {
     Objects.requireNonNull(frame);
     Objects.requireNonNull(documentMetadata);
 
-    this.frame = frame;
-    this.documentMetadata = documentMetadata;
-  }
-
-  @Override
-  public void performAction() {
     if (documentMetadata.isTextIsAltered()) {
       Object[] options = {getString(SAVE), getString(DONT_SAVE), getString(CANCEL)};
 

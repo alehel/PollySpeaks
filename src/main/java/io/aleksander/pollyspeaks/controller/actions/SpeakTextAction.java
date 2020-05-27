@@ -57,8 +57,7 @@ public class SpeakTextAction implements Action {
                       StringResource.getString(StringResource.ERROR),
                       JOptionPane.ERROR_MESSAGE);
                 }
-              })
-          .start();
+              }).start();
     }
   }
 }
