@@ -2,10 +2,7 @@ package io.aleksander.pollyspeaks.controller;
 
 import io.aleksander.pollyspeaks.controller.actions.ExitAction;
 import io.aleksander.pollyspeaks.controller.actions.ExportToAudioAction;
-import io.aleksander.pollyspeaks.controller.actions.NewFileAction;
-import io.aleksander.pollyspeaks.controller.actions.OpenTextFileAction;
-import io.aleksander.pollyspeaks.controller.actions.SaveAsTextFileAction;
-import io.aleksander.pollyspeaks.controller.actions.SaveTextFileAction;
+import io.aleksander.pollyspeaks.controller.actions.FileActions;
 import io.aleksander.pollyspeaks.controller.actions.WordWrapAction;
 import io.aleksander.pollyspeaks.gui.ApplicationMenuBar;
 import io.aleksander.pollyspeaks.gui.MainFrame;
@@ -16,39 +13,35 @@ import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JTextArea;
 
 public class ApplicationMenuBarController {
-  private final MainFrame parent;
+  private final MainFrame frame;
   private final ApplicationMenuBar view;
   private final TextToSpeechEngine textToSpeechEngine;
 
   public ApplicationMenuBarController(
-      MainFrame parent, JTextArea textArea, DocumentMetadata documentMetadata, TextToSpeechEngine textToSpeechEngine) {
+      MainFrame frame, JTextArea textArea, DocumentMetadata documentMetadata, TextToSpeechEngine textToSpeechEngine) {
     this.textToSpeechEngine = textToSpeechEngine;
-    this.parent = parent;
+    this.frame = frame;
     view = new ApplicationMenuBar();
     setActions(textArea, documentMetadata);
-    parent.setJMenuBar(view);
+    frame.setJMenuBar(view);
   }
 
   private void setActions(JTextArea textArea, DocumentMetadata documentMetadata) {
     view.getNewItem()
-        .addActionListener(
-            e -> (new NewFileAction(parent, textArea, documentMetadata)).performAction());
+        .addActionListener(e -> FileActions.newFile(frame, textArea, documentMetadata));
 
     view.getOpenItem()
-        .addActionListener(
-            e -> (new OpenTextFileAction(parent, textArea, documentMetadata)).performAction());
+        .addActionListener(e -> FileActions.openTextFile(frame, textArea, documentMetadata));
 
     view.getSaveItem()
-        .addActionListener(
-            e -> (new SaveTextFileAction(parent, documentMetadata)).performAction());
+        .addActionListener(e -> FileActions.saveTextFile(frame, documentMetadata));
 
     view.getSaveAsItem()
-        .addActionListener(
-            e -> (new SaveAsTextFileAction(parent, documentMetadata)).performAction());
+        .addActionListener(e -> FileActions.saveAsTextFile(frame, documentMetadata));
 
     view.getExportToAudioFile()
         .addActionListener(
-            e -> (new ExportToAudioAction(parent, textToSpeechEngine, textArea.getText())).performAction());
+            e -> (new ExportToAudioAction(frame, textToSpeechEngine, textArea.getText())).performAction());
 
     view.getWordWrapItem()
         .addActionListener(
@@ -56,8 +49,8 @@ public class ApplicationMenuBarController {
     view.getWordWrapItem().doClick();
 
     view.getExitItem()
-        .addActionListener(e -> (new ExitAction(parent, documentMetadata)).performAction());
+        .addActionListener(e -> (new ExitAction(frame, documentMetadata)).performAction());
 
-    parent.setJMenuBar(new ApplicationMenuBar());
+    frame.setJMenuBar(new ApplicationMenuBar());
   }
 }
