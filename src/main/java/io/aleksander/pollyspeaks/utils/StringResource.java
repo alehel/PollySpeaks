@@ -24,7 +24,6 @@ public class StringResource {
   public static final String OVERWRITE_FILE = "overwriteFile";
   public static final String NO_SUCH_FILE = "noSuchFile";
   public static final String ERROR_READING_FILE = "errorReadingFile";
-  public static final String FILE_NOT_SAVED = "fileNotSaved";
   public static final String AWS_SDK_ERROR = "awsSdkError";
   public static final String FAILED_TO_START_ERROR = "failedToStartError";
   public static final String EXPORT_TO_AUDIO_FILE = "exportToAudioFile";
