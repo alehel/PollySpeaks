@@ -79,28 +79,25 @@ public class ApplicationMenuBar extends JMenuBar {
     fileMenu.add(exitItem);
 
     // Format menu
-    JMenu viewMenu = new JMenu(StringResource.getString(FORMAT));
-    viewMenu.setMnemonic(KeyEvent.VK_V);
+    JMenu formatMenu = new JMenu(StringResource.getString(FORMAT));
+    formatMenu.setMnemonic(KeyEvent.VK_V);
 
     wordWrapItem = new JCheckBoxMenuItem(StringResource.getString(FORMAT_WORD_WRAP));
     wordWrapItem.setMnemonic(KeyEvent.VK_W);
     wordWrapItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, InputEvent.ALT_DOWN_MASK));
-    viewMenu.add(wordWrapItem);
+    formatMenu.add(wordWrapItem);
 
     fontItem = new JMenuItem(StringResource.getString(StringResource.FONT));
-    viewMenu.add(fontItem);
+    formatMenu.add(fontItem);
 
     add(fileMenu);
-    add(viewMenu);
+    add(formatMenu);
   }
 
   public JMenuItem getFontItem() {
     return fontItem;
   }
 
-  public void setFontItem(JMenuItem fontItem) {
-    this.fontItem = fontItem;
-  }
 
   private ImageIcon getImageIcon(String url) {
     URL fullUrl = getClass().getResource("/toolbarButtonGraphics/" + url);
@@ -111,55 +108,28 @@ public class ApplicationMenuBar extends JMenuBar {
     return exportToAudioFile;
   }
 
-  public void setExportToAudioFile(JMenuItem exportToAudioFile) {
-    this.exportToAudioFile = exportToAudioFile;
-  }
-
   public JMenuItem getNewItem() {
     return newItem;
-  }
-
-  public void setNewItem(JMenuItem newItem) {
-    this.newItem = newItem;
   }
 
   public JMenuItem getOpenItem() {
     return openItem;
   }
 
-  public void setOpenItem(JMenuItem openItem) {
-    this.openItem = openItem;
-  }
-
   public JMenuItem getSaveItem() {
     return saveItem;
-  }
-
-  public void setSaveItem(JMenuItem saveItem) {
-    this.saveItem = saveItem;
   }
 
   public JMenuItem getSaveAsItem() {
     return saveAsItem;
   }
 
-  public void setSaveAsItem(JMenuItem saveAsItem) {
-    this.saveAsItem = saveAsItem;
-  }
-
   public JMenuItem getExitItem() {
     return exitItem;
-  }
-
-  public void setExitItem(JMenuItem exitItem) {
-    this.exitItem = exitItem;
   }
 
   public JCheckBoxMenuItem getWordWrapItem() {
     return wordWrapItem;
   }
 
-  public void setWordWrapItem(JCheckBoxMenuItem wordWrapItem) {
-    this.wordWrapItem = wordWrapItem;
-  }
 }
