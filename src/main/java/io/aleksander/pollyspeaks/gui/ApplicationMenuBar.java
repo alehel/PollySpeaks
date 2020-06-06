@@ -1,7 +1,19 @@
 package io.aleksander.pollyspeaks.gui;
 
-import io.aleksander.pollyspeaks.utils.StringResource;
+import static io.aleksander.pollyspeaks.utils.StringResource.EXIT;
+import static io.aleksander.pollyspeaks.utils.StringResource.EXPORT_TO_AUDIO_FILE;
+import static io.aleksander.pollyspeaks.utils.StringResource.FILE;
+import static io.aleksander.pollyspeaks.utils.StringResource.FORMAT;
+import static io.aleksander.pollyspeaks.utils.StringResource.FORMAT_WORD_WRAP;
+import static io.aleksander.pollyspeaks.utils.StringResource.NEW;
+import static io.aleksander.pollyspeaks.utils.StringResource.OPEN;
+import static io.aleksander.pollyspeaks.utils.StringResource.SAVE;
+import static io.aleksander.pollyspeaks.utils.StringResource.SAVE_AS;
 
+import io.aleksander.pollyspeaks.utils.StringResource;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
+import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
@@ -9,21 +21,10 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
 import javax.swing.KeyStroke;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
-import java.net.URL;
-
-import static io.aleksander.pollyspeaks.utils.StringResource.EXIT;
-import static io.aleksander.pollyspeaks.utils.StringResource.EXPORT_TO_AUDIO_FILE;
-import static io.aleksander.pollyspeaks.utils.StringResource.FILE;
-import static io.aleksander.pollyspeaks.utils.StringResource.NEW;
-import static io.aleksander.pollyspeaks.utils.StringResource.OPEN;
-import static io.aleksander.pollyspeaks.utils.StringResource.SAVE;
-import static io.aleksander.pollyspeaks.utils.StringResource.SAVE_AS;
-import static io.aleksander.pollyspeaks.utils.StringResource.FORMAT;
-import static io.aleksander.pollyspeaks.utils.StringResource.FORMAT_WORD_WRAP;
 
 public class ApplicationMenuBar extends JMenuBar {
+
+  private JMenuItem fontItem;
   private JMenuItem newItem;
   private JMenuItem openItem;
   private JMenuItem saveItem;
@@ -77,7 +78,7 @@ public class ApplicationMenuBar extends JMenuBar {
     exitItem.setMnemonic(KeyEvent.VK_E);
     fileMenu.add(exitItem);
 
-    // View menu
+    // Format menu
     JMenu viewMenu = new JMenu(StringResource.getString(FORMAT));
     viewMenu.setMnemonic(KeyEvent.VK_V);
 
@@ -86,8 +87,19 @@ public class ApplicationMenuBar extends JMenuBar {
     wordWrapItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, InputEvent.ALT_DOWN_MASK));
     viewMenu.add(wordWrapItem);
 
+    fontItem = new JMenuItem(StringResource.getString(StringResource.FONT));
+    viewMenu.add(fontItem);
+
     add(fileMenu);
     add(viewMenu);
+  }
+
+  public JMenuItem getFontItem() {
+    return fontItem;
+  }
+
+  public void setFontItem(JMenuItem fontItem) {
+    this.fontItem = fontItem;
   }
 
   private ImageIcon getImageIcon(String url) {

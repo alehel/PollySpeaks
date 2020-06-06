@@ -3,8 +3,8 @@ package io.aleksander.pollyspeaks.controller;
 import static io.aleksander.pollyspeaks.utils.StringResource.APPLICATION_TITLE;
 
 import com.amazonaws.services.polly.model.Voice;
-import io.aleksander.pollyspeaks.controller.actions.WindowActions;
 import io.aleksander.pollyspeaks.controller.actions.SpeakTextAction;
+import io.aleksander.pollyspeaks.controller.actions.WindowActions;
 import io.aleksander.pollyspeaks.controller.listeners.JTextFieldChangeListener;
 import io.aleksander.pollyspeaks.gui.MainFrame;
 import io.aleksander.pollyspeaks.gui.viewmodel.VoiceSelectModelElement;
@@ -12,6 +12,7 @@ import io.aleksander.pollyspeaks.model.AudioStreamPlayer;
 import io.aleksander.pollyspeaks.model.DocumentMetadata;
 import io.aleksander.pollyspeaks.model.TextToSpeechEngine;
 import io.aleksander.pollyspeaks.utils.StringResource;
+import java.awt.Font;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
@@ -40,6 +41,7 @@ public class MainController implements PropertyChangeListener {
     this.view = new MainFrame();
 
     setUpDocumentHandler();
+    setUpTextArea();
     setUpAudioPlayer();
     setUpLanguageSelector();
     setUpSSMLSelector();
@@ -49,6 +51,13 @@ public class MainController implements PropertyChangeListener {
 
     view.setLocationByPlatform(true);
     view.setVisible(true);
+  }
+
+  private void setUpTextArea() {
+    Font defaultFont = view.getTextArea().getFont();
+    // Font is immutable, create a new default Font.
+    Font newDefaultFont = new Font(defaultFont.getName(), defaultFont.getStyle(), 11);
+    view.getTextArea().setFont(newDefaultFont);
   }
 
   private void setUpDocumentHandler() {

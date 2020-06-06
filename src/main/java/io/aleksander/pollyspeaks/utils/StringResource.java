@@ -35,6 +35,7 @@ public class StringResource {
   public static final String CANCEL = "cancel";
   public static final String CLOSE_UNSAVED_FILE = "replaceUnsavedFile";
   public static final String UNTITLED = "untitled";
+  public static final String FONT = "font";
 
   public static String getString(String propertyKey) {
     Objects.requireNonNull(propertyKey);
