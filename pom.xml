@@ -19,7 +19,7 @@
         <junit.version>5.6.2</junit.version>
         <pollysdk.version>1.11.797</pollysdk.version>
         <soundlibs.version>1.0.1.4</soundlibs.version>
-        <log4j.version>2.13.3</log4j.version>
+        <log4j.version>2.16.0</log4j.version>
         <jfontchooser.version>1.0.5-3</jfontchooser.version>
     </properties>
 
